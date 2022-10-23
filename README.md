@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 0_workflow.sh
 
 ## v1.0.1
@@ -90,3 +91,6 @@
 --基于重新构建的miRNA/miRNA*序列文件，通过回帖到基因组，以及参照miRBase（*Reference_Source/Arabidopsis_Reference/ath.gff3*）hairpin的注释，构建了新的miRNA annotation GFF3文件（*Reference_Source/Arabidopsis_Reference/ath.reannotation.gff3*）。
 
 --在对reads计数时，除对miRBase mature 以及hairpin的计数结果外，增加miRNA re-annotation的计数结果，并以miRNA family的形式重新求和计算。
+=======
+# TRMRNAseqTools
+>>>>>>> 2a30e61d810344b06fc9015d73031ab186f565d3
