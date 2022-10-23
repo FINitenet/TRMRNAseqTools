@@ -1,0 +1,12 @@
+miRNA_primary_transcript
+phasi_tasiRNA
+hc-siRNA
+transposable_element
+snoRNA
+snRNA
+rRNA
+tRNA
+lncRNA
+protein_coding
+otherRNA
+Unassigned_NoFeatures

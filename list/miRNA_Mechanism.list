@@ -1,0 +1,452 @@
+raw_id	md	mechanism						
+ath-miR156a/b/c/d/e/f-5p	ath-miR156a-5p;ath-miR156b-5p;ath-miR156c-5p;ath-miR156d-5p;ath-miR156e-5p;ath-miR156f-5p	Short loop-to-base						
+ath-miR156a-3p*	ath-miR156a-3p*	Short loop-to-base						
+ath-miR156b-3p*	ath-miR156b-3p*	Short loop-to-base						
+ath-miR156c-3p*	ath-miR156c-3p*	Short loop-to-base						
+ath-miR156d-3p*	ath-miR156d-3p*	Short loop-to-base						
+ath-miR156e-3p*	ath-miR156e-3p*	Short loop-to-base						
+ath-miR156f-3p*	ath-miR156f-3p*	Short loop-to-base						
+ath-miR156g-3p*	ath-miR156g-3p*	Short loop-to-base						
+ath-miR156g-5p	ath-miR156g-5p	Short loop-to-base						
+ath-miR156h-3p*	ath-miR156h-3p*	Short loop-to-base						
+ath-miR156h-5p	ath-miR156h-5p	Short loop-to-base						
+ath-miR156i-3p	ath-miR156i	Unassigned						
+ath-miR156j-5p	ath-miR156j	Unassigned						
+ath-miR157a/b/c-5p	ath-miR157a-5p;ath-miR157b-5p;ath-miR157c-5p	Short loop-to-base						
+ath-miR157a/b-3p*	ath-miR157a-3p*;ath-miR157b-3p*	Short loop-to-base						
+ath-miR157c-3p*	ath-miR157c-3p*	Short loop-to-base						
+ath-miR157d-3p*	ath-miR157d-3p*	Unassigned						
+ath-miR157d-5p	ath-miR157d-5p	Unassigned						
+ath-miR158a-3p	ath-miR158a-3p	Short base-to-loop						
+ath-miR158a-5p*	ath-miR158a-5p*	Short base-to-loop						
+ath-miR158b-3p	ath-miR158b-3p	Unassigned						
+ath-miR158b-5p*	ath-miR158b-5p*	Unassigned						
+ath-miR159a-3p	ath-miR159a-3p	Sequential loop-to-base						
+ath-miR159a-5p*	ath-miR159a-5p*	Sequential loop-to-base						
+ath-miR159b-3p	ath-miR159b-3p	Sequential loop-to-base						
+ath-miR159b-5p*	ath-miR159b-5p*	Sequential loop-to-base						
+ath-miR159c-3p	ath-miR159c-3p	Sequential loop-to-base						
+ath-miR159c-5p*	ath-miR159c-5p*	Sequential loop-to-base						
+ath-miR160a/b/c-5p	ath-miR160a-5p;ath-miR160b-5p;ath-miR160c-5p	Short loop-to-base						
+ath-miR160a-3p*	ath-miR160a-3p*	Short loop-to-base						
+ath-miR160b-3p*	ath-miR160b-3p*	Short loop-to-base						
+ath-miR160c-3p*	ath-miR160c-3p*	Short loop-to-base						
+ath-miR161.1-3p*	ath-miR161.1-3p*	Short base-to-loop						
+ath-miR161.1-5p	ath-miR161.1-5p	Short base-to-loop						
+ath-miR161.2-3p*	ath-miR161.2-3p*	Short base-to-loop						
+ath-miR161.2-5p	ath-miR161.2-5p	Short base-to-loop						
+ath-miR162a/b-3p	ath-miR162a-3p;ath-miR162b-3p	short loop-to-base						
+ath-miR162a/b-5p*	ath-miR162a-5p*;ath-miR162b-5p*	short loop-to-base						
+ath-miR163-3p	ath-miR163-3p	Sequential base-to-loop						
+ath-miR163-5p*	ath-miR163-5p*	Sequential base-to-loop						
+ath-miR164a/b-5p	ath-miR164a-5p;ath-miR164b-5p	Short base-to-loop 						
+ath-miR164a-3p*	ath-miR164a-3p*	Short base-to-loop 						
+ath-miR164b-3p*	ath-miR164b-3p*	Short base-to-loop 						
+ath-miR164c-3p*	ath-miR164c-3p*	Short base-to-loop 						
+ath-miR164c-5p	ath-miR164c-5p	Short base-to-loop 						
+ath-miR165a/b-3p	ath-miR165a-3p;ath-miR165b-3p	Short base-to-loop						
+ath-miR165a-5p*	ath-miR165a-5p*	Short base-to-loop 						
+ath-miR165b-5p*	ath-miR165b-5p*	Short base-to-loop 						
+ath-miR166a/b/c/d/e/f/g-3p	ath-miR166a-3p;ath-miR166b-3p;ath-miR166c-3p;ath-miR166d-3p;ath-miR166e-3p;ath-miR166f-3p;ath-miR166g-3p	Short base-to-loop						
+ath-miR166a/b-5p*	ath-miR166a-5p*;ath-miR166b-5p*	Short base-to-loop						
+ath-miR166c-5p*	ath-miR166c-5p*	Short base-to-loop						
+ath-miR166d-5p*	ath-miR166d-5p*	Short base-to-loop						
+ath-miR166e-5p*	ath-miR166e-5p*	Short base-to-loop						
+ath-miR166f-5p*	ath-miR166f-5p*	Short base-to-loop						
+ath-miR166g-5p*	ath-miR166g-5p*	Short base-to-loop						
+ath-miR167a/b-5p	ath-miR167a-5p;ath-miR167b-5p	Short base-to-loop						
+ath-miR167a-3p*	ath-miR167a-3p*	Short base-to-loop						
+ath-miR167b-3p*	ath-miR167b-3p*	Short base-to-loop						
+ath-miR167c-3p*	ath-miR167c-3p*	Short base-to-loop						
+ath-miR167c-5p	ath-miR167c-5p	Short base-to-loop						
+ath-miR167d-3p*	ath-miR167d-3p*	Short base-to-loop						
+ath-miR167d-5p	ath-miR167d-5p	Short base-to-loop						
+ath-miR168a/b-5p	ath-miR168a-5p;ath-miR168b-5p	Short base-to-loop						
+ath-miR168a-3p*	ath-miR168a-3p*	Short base-to-loop						
+ath-miR168b-3p*	ath-miR168b-3p*	Short base-to-loop						
+ath-miR169a-3p*	ath-miR169a-3p*	Short base-to-loop						
+ath-miR169a-5p	ath-miR169a-5p	Short base-to-loop						
+ath-miR169b/c-5p	ath-miR169b-5p;ath-miR169c-5p	Sequential base-to-loop						
+ath-miR169b-3p*	ath-miR169b-3p*	Sequential base-to-loop						
+ath-miR169c-3p*	ath-miR169c-3p*	Sequential base-to-loop						
+ath-miR169d/e/f/g-5p	ath-miR169d-5p;ath-miR169e-5p;ath-miR169f-5p;ath-miR169g-5p	Sequential base-to-loop						
+ath-miR169d-3p*	ath-miR169d-3p*	Sequential base-to-loop						
+ath-miR169e-3p*	ath-miR169e-3p*	Sequential base-to-loop						
+ath-miR169f-3p*	ath-miR169f-3p*	Sequential base-to-loop						
+ath-miR169g-3p*	ath-miR169g-3p*	Sequential base-to-loop						
+ath-miR169h/i/j/k/l/m/n-5p	ath-miR169h-5p;ath-miR169i-5p;ath-miR169j-5p;ath-miR169k-5p;ath-miR169l-5p;ath-miR169m-5p;ath-miR169n-5p	Sequential base-to-loop						
+ath-miR169h-3p*	ath-miR169h-3p*	Sequential base-to-loop						
+ath-miR169i/j/k/m-3p*	ath-miR169i-3p*;ath-miR169j-3p*;ath-miR169k-3p*;ath-miR169m-3p*	Sequential base-to-loop						
+ath-miR169l/n-3p*	ath-miR169l-3p*;ath-miR169n-3p*	Sequential base-to-loop						
+ath-miR170/miR171a-5p*	ath-miR170-5p*;ath-miR171a-5p*	Short base-to-loop						
+ath-miR170-3p	ath-miR170-3p	Short base-to-loop						
+ath-miR171a-3p	ath-miR171a-3p	Short base-to-loop						
+ath-miR171b/c-3p	ath-miR171b-3p;ath-miR171c-3p	Short loop-to-base						
+ath-miR171b-5p*	ath-miR171b-5p*	Short loop-to-base						
+ath-miR171c-5p*	ath-miR171c-5p*	Short loop-to-base						
+ath-miR172a/b-3p	ath-miR172a-3p;ath-miR172b-3p	Short base-to-loop						
+ath-miR172a-5p*	ath-miR172a-5p*	Short base-to-loop						
+ath-miR172b/e-5p*	ath-miR172b-5p*;ath-miR172e-5p*	Short base-to-loop						
+ath-miR172c/d-3p	ath-miR172c-3p;ath-miR172d-3p	Short base-to-loop						
+ath-miR172c-5p*	ath-miR172c-5p*	Short base-to-loop						
+ath-miR172d-5p*	ath-miR172d-5p*	Short base-to-loop						
+ath-miR172e-3p	ath-miR172e-3p	Short base-to-loop						
+ath-miR173-3p*	ath-miR173-3p*	Short base-to-loop						
+ath-miR173-5p	ath-miR173-5p	Short base-to-loop						
+ath-miR1886.1	ath-miR1886.1	Unassigned						
+ath-miR1886.2	ath-miR1886.2	Unassigned						
+ath-miR1886.3	ath-miR1886.3	Unassigned						
+ath-miR1887	ath-miR1887	Unassigned						
+ath-miR1888a	ath-miR1888a	Unassigned						
+ath-miR1888b	ath-miR1888b	Unassigned						
+ath-miR2111a/b-5p	ath-miR2111a-5p;ath-miR2111b-5p	Short base-to-loop						
+ath-miR2111a-3p*	ath-miR2111a-3p*	Short base-to-loop						
+ath-miR2111b-3p*	ath-miR2111b-3p*	Unassigned						
+ath-miR2112-3p	ath-miR2112-3p	Unassigned						
+ath-miR2112-5p	ath-miR2112-5p	Unassigned						
+ath-miR2933a/b	ath-miR2933a;ath-miR2933b	Unassigned						
+ath-miR2934-3p*	ath-miR2934-3p*	Unassigned						
+ath-miR2934-5p	ath-miR2934-5p	Unassigned						
+ath-miR2936	ath-miR2936	Unassigned						
+ath-miR2937	ath-miR2937	Unassigned						
+ath-miR2938	ath-miR2938	Unassigned						
+ath-miR2939	ath-miR2939	Unassigned						
+ath-miR319a/b-3p	ath-miR319a-3p;ath-miR319b-3p	Sequential loop-to-base						
+ath-miR319a-5p*	ath-miR319a-5p*	Sequential loop-to-base						
+ath-miR319b-5p*	ath-miR319b-5p*	Sequential loop-to-base						
+ath-miR319c-3p	ath-miR319c-3p	Sequential loop-to-base						
+ath-miR319c-5p*	ath-miR319c-5p*	Sequential loop-to-base						
+ath-miR3434-3p*	ath-miR3434-3p*	Unassigned						
+ath-miR3434-5p	ath-miR3434-5p	Unassigned						
+ath-miR3440b-3p	ath-miR3440b-3p	Unassigned						
+ath-miR3440b-5p	ath-miR3440b-5p	Unassigned						
+ath-miR390a/b-5p	ath-miR390a-5p;ath-miR390b-5p	Short base-to-loop						
+ath-miR390a-3p*	ath-miR390a-3p*	Short base-to-loop						
+ath-miR390b-3p*	ath-miR390b-3p*	Short base-to-loop						
+ath-miR391-3p*	ath-miR391-3p*	Short base-to-loop						
+ath-miR391-5p	ath-miR391-5p	Short base-to-loop						
+ath-miR3932a/miR3932b-3p	ath-miR3932b-3p;ath-miR3932a	Unassigned						
+ath-miR3932b-5p*	ath-miR3932b-5p*	Unassigned						
+ath-miR3933	ath-miR3933	Unassigned						
+ath-miR393a/b-5p	ath-miR393a-5p;ath-miR393b-5p	Short base-to-loop						
+ath-miR393a-3p*	ath-miR393a-3p*	Short base-to-loop						
+ath-miR393b-3p*	ath-miR393b-3p*	Short base-to-loop						
+ath-miR394a/b-5p	ath-miR394a-5p;ath-miR394b-5p	Sequential base-to-loop						
+ath-miR394a-3p*	ath-miR394a-3p*	Sequential base-to-loop						
+ath-miR394b-3p*	ath-miR394b-3p*	Sequential base-to-loop						
+ath-miR395a/d/e-3p	ath-miR395a-3p;ath-miR395d-3p;ath-miR395e-3p	Short base-to-loop						
+ath-miR395a/e-5p*	ath-miR395a-5p*;ath-miR395e-5p*	Short base-to-loop						
+ath-miR395b/c/f-3p	ath-miR395b-3p;ath-miR395c-3p;ath-miR395f-3p	Short base-to-loop						
+ath-miR395b/c-5p*	ath-miR395b-5p*;ath-miR395c-5p*	Short base-to-loop						
+ath-miR395d-5p*	ath-miR395d-5p*	Short base-to-loop						
+ath-miR395f-5p*	ath-miR395f-5p*	Short base-to-loop						
+ath-miR396a-3p*	ath-miR396a-3p*	Short base-to-loop						
+ath-miR396a-5p	ath-miR396a-5p	Short base-to-loop						
+ath-miR396b-3p*	ath-miR396b-3p*	Short base-to-loop						
+ath-miR396b-5p	ath-miR396b-5p	Short base-to-loop						
+ath-miR397a-3p*	ath-miR397a-3p*	Short base-to-loop						
+ath-miR397a-5p	ath-miR397a-5p	Short base-to-loop						
+ath-miR397b-3p*	ath-miR397b-3p*	Short base-to-loop						
+ath-miR397b-5p	ath-miR397b-5p	Short base-to-loop						
+ath-miR398a-3p	ath-miR398a-3p	Short base-to-loop						
+ath-miR398a-5p*	ath-miR398a-5p*	Short base-to-loop						
+ath-miR398b/c-3p	ath-miR398b-3p;ath-miR398c-3p	Short base-to-loop						
+ath-miR398b/c-5p*	ath-miR398b-5p*;ath-miR398c-5p*	Short base-to-loop						
+ath-miR399a-3p	ath-miR399a-3p	Short base-to-loop						
+ath-miR399a-5p*	ath-miR399a-5p*	Short base-to-loop						
+ath-miR399b/c-3p	ath-miR399b-3p;ath-miR399c-3p	Short base-to-loop						
+ath-miR399b-5p*	ath-miR399b-5p*	Short base-to-loop						
+ath-miR399c-5p*	ath-miR399c-5p*	Short base-to-loop						
+ath-miR399d-3p	ath-miR399d-3p	Short base-to-loop						
+ath-miR399d-5p*	ath-miR399d-5p*	Short base-to-loop						
+ath-miR399e-3p	ath-miR399e-3p	Short base-to-loop						
+ath-miR399e-5p*	ath-miR399e-5p*	Short base-to-loop						
+ath-miR399f-3p	ath-miR399f-3p	Short base-to-loop						
+ath-miR399f-5p*	ath-miR399f-5p*	Short base-to-loop						
+ath-miR400-3p*	ath-miR400-3p*	Short loop-to-base						
+ath-miR400-5p	ath-miR400-5p	Short loop-to-base						
+ath-miR401-3p*	ath-miR401-3p*	Unassigned						
+ath-miR401-5p	ath-miR401-5p	Unassigned						
+ath-miR402-3p*	ath-miR402-3p*	Sequential base-to-loop						
+ath-miR402-5p	ath-miR402-5p	Sequential base-to-loop						
+ath-miR403-3p	ath-miR403-3p	Short base-to-loop						
+ath-miR403-5p*	ath-miR403-5p*	Short base-to-loop						
+ath-miR404-3p*	ath-miR404-3p*	Unassigned						
+ath-miR404-5p	ath-miR404-5p	Unassigned						
+ath-miR405a/b/d-3p	ath-miR405a-3p;ath-miR405b-3p;ath-miR405d-3p	Unassigned						
+ath-miR405a/d-5p*	ath-miR405a-5p*;ath-miR405d-5p*	Unassigned						
+ath-miR405b-5p*	ath-miR405b-5p*	Unassigned						
+ath-miR406	ath-miR406	Unassigned						
+ath-miR407-3p*	ath-miR407-3p*	Unassigned						
+ath-miR407-5p	ath-miR407-5p	Unassigned						
+ath-miR408-3p	ath-miR408-3p	Short loop-to-base						
+ath-miR408-5p*	ath-miR408-5p*	Short loop-to-base						
+ath-miR413-3p*	ath-miR413-3p*	Unassigned						
+ath-miR413-5p	ath-miR413-5p	Unassigned						
+ath-miR414-3p*	ath-miR414-3p*	Unassigned						
+ath-miR414-5p	ath-miR414-5p	Unassigned						
+ath-miR415-3p*	ath-miR415-3p*	Unassigned						
+ath-miR415-5p	ath-miR415-5p	Unassigned						
+ath-miR416-3p	ath-miR416-3p	Unassigned						
+ath-miR416-5p*	ath-miR416-5p*	Unassigned						
+ath-miR417-3p	ath-miR417-3p	Unassigned						
+ath-miR417-5p*	ath-miR417-5p*	Unassigned						
+ath-miR418-3p	ath-miR418-3p	Unassigned						
+ath-miR418-5p*	ath-miR418-5p*	Unassigned						
+ath-miR419-3p*	ath-miR419-3p*	Unassigned						
+ath-miR419-5p	ath-miR419-5p	Unassigned						
+ath-miR420-3p*	ath-miR420-3p*	Unassigned						
+ath-miR420-5p	ath-miR420-5p	Unassigned						
+ath-miR4221	ath-miR4221	Unassigned						
+ath-miR4227	ath-miR4227	Unassigned						
+ath-miR4228-3p*	ath-miR4228-3p*	Unassigned						
+ath-miR4228-5p	ath-miR4228-5p	Unassigned						
+ath-miR4239	ath-miR4239	Unassigned						
+ath-miR4240	ath-miR4240	Unassigned						
+ath-miR4243	ath-miR4243	Unassigned						
+ath-miR4245	ath-miR4245	Unassigned						
+ath-miR426-3p*	ath-miR426-3p*	Unassigned						
+ath-miR426-5p	ath-miR426-5p	Unassigned						
+ath-miR447a.2-3p	ath-miR447a.2-3p	Sequential base-to-loop						
+ath-miR447a.2-5p*	ath-miR447a.2-5p*	Sequential base-to-loop						
+ath-miR447a/b-3p	ath-miR447a-3p;ath-miR447b-3p	Sequential base-to-loop						
+ath-miR447a/b-5p*	ath-miR447a-5p*;ath-miR447b-5p*	Sequential base-to-loop						
+ath-miR447c-3p	ath-miR447c-3p	Unassigned						
+ath-miR447c-5p*	ath-miR447c-5p*	Unassigned						
+ath-miR472-3p	ath-miR472-3p	Sequential base-to-loop						
+ath-miR472-5p*	ath-miR472-5p*	Sequential base-to-loop						
+ath-miR5012	ath-miR5012	Unassigned						
+ath-miR5013	ath-miR5013	Unassigned						
+ath-miR5014a-3p	ath-miR5014a-3p	Unassigned						
+ath-miR5014a-5p	ath-miR5014a-5p	Unassigned						
+ath-miR5014b	ath-miR5014b	Unassigned						
+ath-miR5015	ath-miR5015	Unassigned						
+ath-miR5016	ath-miR5016	Unassigned						
+ath-miR5017-3p	ath-miR5017-3p	Unassigned						
+ath-miR5017-5p*	ath-miR5017-5p*	Unassigned						
+ath-miR5018	ath-miR5018	Unassigned						
+ath-miR5019	ath-miR5019	Unassigned						
+ath-miR5020a	ath-miR5020a	Unassigned						
+ath-miR5020b	ath-miR5020b	Unassigned						
+ath-miR5020c	ath-miR5020c	Unassigned						
+ath-miR5021	ath-miR5021	Unassigned						
+ath-miR5022	ath-miR5022	Unassigned						
+ath-miR5023	ath-miR5023	Unassigned						
+ath-miR5024-3p*	ath-miR5024-3p*	Unassigned						
+ath-miR5024-5p	ath-miR5024-5p	Unassigned						
+ath-miR5025	ath-miR5025	Unassigned						
+ath-miR5026	ath-miR5026	Unassigned						
+ath-miR5027	ath-miR5027	Unassigned						
+ath-miR5028	ath-miR5028	Unassigned						
+ath-miR5029	ath-miR5029	Unassigned						
+ath-miR5595a/b	ath-miR5595a;ath-miR5995b	Unassigned						
+ath-miR5628	ath-miR5628	Unassigned						
+ath-miR5629	ath-miR5629	Unassigned						
+ath-miR5630a/b	ath-miR5630a;ath-miR5630b	Unassigned						
+ath-miR5631	ath-miR5631	Unassigned						
+ath-miR5632-3p	ath-miR5632-3p	Unassigned						
+ath-miR5632-5p*	ath-miR5632-5p*	Unassigned						
+ath-miR5633	ath-miR5633	Unassigned						
+ath-miR5634	ath-miR5634	Unassigned						
+ath-miR5635a/b/c/d	ath-miR5635a;ath-miR5635b;ath-miR5635c;ath-miR5635d	Unassigned						
+ath-miR5636	ath-miR5636	Unassigned						
+ath-miR5637	ath-miR5637	Unassigned						
+ath-miR5638a	ath-miR5638a	Unassigned						
+ath-miR5638b	ath-miR5638b	Unassigned						
+ath-miR5639-3p*	ath-miR5639-3p*	Unassigned						
+ath-miR5639-5p	ath-miR5639-5p	Unassigned						
+ath-miR5640	ath-miR5640	Unassigned						
+ath-miR5641	ath-miR5641	Unassigned						
+ath-miR5642a/b	ath-miR5642a;ath-miR5642b	Unassigned						
+ath-miR5643a/b	ath-miR5643a;ath-miR5643b	Unassigned						
+ath-miR5644	ath-miR5644	Unassigned						
+ath-miR5645a/b/d/e/f	ath-miR5645a;ath-miR5645b;ath-miR5645d;ath-miR5645e;ath-miR5645f	Unassigned						
+ath-miR5645c	ath-miR5645c	Unassigned						
+ath-miR5646	ath-miR5646	Unassigned						
+ath-miR5647	ath-miR5647	Unassigned						
+ath-miR5648-3p	ath-miR5648-3p	Unassigned						
+ath-miR5648-5p	ath-miR5648-5p	Unassigned						
+ath-miR5649a/b	ath-miR5649a;ath-miR5649b	Unassigned						
+ath-miR5650	ath-miR5650	Unassigned						
+ath-miR5651	ath-miR5651	Unassigned						
+ath-miR5652	ath-miR5652	Unassigned						
+ath-miR5653	ath-miR5653	Unassigned						
+ath-miR5654-3p*	ath-miR5654-3p*	Unassigned						
+ath-miR5654-5p	ath-miR5654-5p	Unassigned						
+ath-miR5655	ath-miR5655	Unassigned						
+ath-miR5656	ath-miR5656	Unassigned						
+ath-miR5657	ath-miR5657	Unassigned						
+ath-miR5658	ath-miR5658	Unassigned						
+ath-miR5659	ath-miR5659	Unassigned						
+ath-miR5660	ath-miR5660	Unassigned						
+ath-miR5661	ath-miR5661	Unassigned						
+ath-miR5662	ath-miR5662	Unassigned						
+ath-miR5663-3p*	ath-miR5663-3p*	Unassigned						
+ath-miR5663-5p	ath-miR5663-5p	Unassigned						
+ath-miR5664	ath-miR5664	Unassigned						
+ath-miR5665	ath-miR5665	Unassigned						
+ath-miR5666	ath-miR5666	Unassigned						
+ath-miR5996	ath-miR5996	Unassigned						
+ath-miR5997	ath-miR5997	Unassigned						
+ath-miR5998a/b	ath-miR5998a;ath-miR5998b	Unassigned						
+ath-miR5999	ath-miR5999	Unassigned						
+ath-miR771-3p*	ath-miR771-3p*	Short base-to-loop						
+ath-miR771-5p	ath-miR771-5p	Short base-to-loop						
+ath-miR773a-3p	ath-miR773a-3p	Unassigned						
+ath-miR773a-5p*	ath-miR773a-5p*	Unassigned						
+ath-miR773b-3p	ath-miR773b-3p	Unassigned						
+ath-miR773b-5p*	ath-miR773b-5p*	Unassigned						
+ath-miR774a-3p	ath-miR774a-3p	Unassigned						
+ath-miR774a-5p*	ath-miR774a-5p*	Unassigned						
+ath-miR774b-3p*	ath-miR774b-3p*	Unassigned						
+ath-miR774b-5p	ath-miR774b-5p	Unassigned						
+ath-miR775-3p	ath-miR775-3p	Unassigned						
+ath-miR775-5p*	ath-miR775-5p*	Unassigned						
+ath-miR776-3p	ath-miR776-3p	Unassigned						
+ath-miR776-5p*	ath-miR776-5p*	Unassigned						
+ath-miR777-3p	ath-miR777-3p	Unassigned						
+ath-miR777-5p*	ath-miR777-5p*	Unassigned						
+ath-miR778-3p*	ath-miR778-3p*	Unassigned						
+ath-miR778-5p	ath-miR778-5p	Unassigned						
+ath-miR779.1	ath-miR779.1	Sequential loop-to-base						
+ath-miR779.2	ath-miR779.2	Sequential loop-to-base						
+ath-miR780.1	ath-miR780.1	Unassigned						
+ath-miR780.2	ath-miR780.2	Unassigned						
+ath-miR781a/b-5p	ath-miR781a-5p;ath-miR781b-5p	Unassigned						
+ath-miR781a-3p*	ath-miR781a-3p*	Unassigned						
+ath-miR781b-3p*	ath-miR781b-3p*	Unassigned						
+ath-miR782-3p*	ath-miR782-3p*	Unassigned						
+ath-miR782-5p	ath-miR782-5p	Unassigned						
+ath-miR8121	ath-miR8121	Unassigned						
+ath-miR8165	ath-miR8165	Unassigned						
+ath-miR8166	ath-miR8166	Unassigned						
+ath-miR8167a/b/c/d/e/f	ath-miR8167a;ath-miR8167b;ath-miR8167c;ath-miR8167d;ath-miR8167e;ath-miR8167f	Unassigned						
+ath-miR8168	ath-miR8168	Unassigned						
+ath-miR8169	ath-miR8169	Unassigned						
+ath-miR8170-3p	ath-miR8170-3p	Unassigned						
+ath-miR8170-5p	ath-miR8170-5p	Unassigned						
+ath-miR8171	ath-miR8171	Unassigned						
+ath-miR8172	ath-miR8172	Unassigned						
+ath-miR8173	ath-miR8173	Unassigned						
+ath-miR8174	ath-miR8174	Unassigned						
+ath-miR8175	ath-miR8175	Unassigned						
+ath-miR8176	ath-miR8176	Unassigned						
+ath-miR8177	ath-miR8177	Unassigned						
+ath-miR8178	ath-miR8178	Unassigned						
+ath-miR8179	ath-miR8179	Unassigned						
+ath-miR8180	ath-miR8180	Unassigned						
+ath-miR8181	ath-miR8181	Unassigned						
+ath-miR8182	ath-miR8182	Unassigned						
+ath-miR8183	ath-miR8183	Unassigned						
+ath-miR8184	ath-miR8184	Unassigned						
+ath-miR822-3p*	ath-miR822-3p*	Unassigned						
+ath-miR822-5p	ath-miR822-5p	Unassigned						
+ath-miR823-3p	ath-miR823-3p	Unassigned						
+ath-miR823-5p*	ath-miR823-5p*	Unassigned						
+ath-miR824-3p*	ath-miR824-3p*	Short base-to-loop						
+ath-miR824-5p	ath-miR824-5p	Short base-to-loop						
+ath-miR825-3p	ath-miR825-3p	Short loop-to-base						
+ath-miR825-5p*	ath-miR825-5p*	Short loop-to-base						
+ath-miR826a-3p*	ath-miR826a-3p*	Unassigned						
+ath-miR826a-5p	ath-miR826a-5p	Unassigned						
+ath-miR826b-3p*	ath-miR826b-3p*	Unassigned						
+ath-miR826b-5p	ath-miR826b-5p	Unassigned						
+ath-miR827-3p	ath-miR827-3p	Short base-to-loop						
+ath-miR827-5p*	ath-miR827-5p*	Short base-to-loop						
+ath-miR828-3p*	ath-miR828-3p*	Unassigned						
+ath-miR828-5p	ath-miR828-5p	Unassigned						
+ath-miR829-3p	ath-miR829-3p	Unassigned						
+ath-miR829-3p.1	ath-miR829-3p.1	Unassigned						
+ath-miR829-5p*	ath-miR829-5p*	Unassigned						
+ath-miR830-3p	ath-miR830-3p	Unassigned						
+ath-miR830-5p*	ath-miR830-5p*	Unassigned						
+ath-miR831-3p	ath-miR831-3p	Unassigned						
+ath-miR831-5p*	ath-miR831-5p*	Unassigned						
+ath-miR832-3p*	ath-miR832-3p*	Unassigned						
+ath-miR832-5p	ath-miR832-5p	Unassigned						
+ath-miR833a-3p*	ath-miR833a-3p*	Unassigned						
+ath-miR833a-5p	ath-miR833a-5p	Unassigned						
+ath-miR833b-3p*	ath-miR833b-3p	Unassigned						
+ath-miR833b-5p	ath-miR833b-5p*	Unassigned						
+ath-miR834-3p	ath-miR834-3p	Unassigned						
+ath-miR834-5p*	ath-miR834-5p*	Unassigned						
+ath-miR835-3p*	ath-miR835-3p*	Unassigned						
+ath-miR835-5p	ath-miR835-5p	Unassigned						
+ath-miR836-3p	ath-miR836-3p	Unassigned						
+ath-miR836-5p*	ath-miR836-5p*	Unassigned						
+ath-miR837-3p*	ath-miR837-3p*	Unassigned						
+ath-miR837-5p	ath-miR837-5p	Unassigned						
+ath-miR838-3p	ath-miR838-3p	Unassigned						
+ath-miR838-5p*	ath-miR838-5p*	Unassigned						
+ath-miR839-3p*	ath-miR839-3p*	Unassigned						
+ath-miR839-5p	ath-miR839-5p	Unassigned						
+ath-miR840-3p*	ath-miR840-3p*	Unassigned						
+ath-miR840-5p	ath-miR840-5p	Unassigned						
+ath-miR841a-3p*	ath-miR841a-3p*	Unassigned						
+ath-miR841a-5p	ath-miR841a-5p	Unassigned						
+ath-miR841b-3p*	ath-miR841b-3p*	Unassigned						
+ath-miR841b-5p	ath-miR841b-5p	Unassigned						
+ath-miR842-3p	ath-miR842-3p	Unassigned						
+ath-miR842-5p*	ath-miR842-5p*	Unassigned						
+ath-miR843-3p*	ath-miR843-3p*	Unassigned						
+ath-miR843-5p	ath-miR843-5p	Unassigned						
+ath-miR844-3p*	ath-miR844-3p*	Unassigned						
+ath-miR844-5p	ath-miR844-5p	Unassigned						
+ath-miR845a-3p	ath-miR845a-3p	Unassigned						
+ath-miR845a-5p*	ath-miR845a-5p*	Unassigned						
+ath-miR845b-3p	ath-miR845b-3p	Unassigned						
+ath-miR846-3p	ath-miR846-3p	Unassigned						
+ath-miR846-5p*	ath-miR846-5p*	Unassigned						
+ath-miR847-3p	ath-miR847-3p	Unassigned						
+ath-miR847-5p*	ath-miR847-5p*	Unassigned						
+ath-miR848-3p	ath-miR848-3p	Unassigned						
+ath-miR848-5p*	ath-miR848-5p*	Unassigned						
+ath-miR849-3p	ath-miR849-3p	Unassigned						
+ath-miR849-5p*	ath-miR849-5p*	Unassigned						
+ath-miR84b5-5p*	ath-miR845b-5p*	Unassigned						
+ath-miR850-3p*	ath-miR850-3p*	Unassigned						
+ath-miR850-5p	ath-miR850-5p	Unassigned						
+ath-miR851-3p*	ath-miR851-3p*	Unassigned						
+ath-miR851-5p	ath-miR851-5p	Unassigned						
+ath-miR852-3p	ath-miR852-3p	Unassigned						
+ath-miR852-5p*	ath-miR852-5p*	Unassigned						
+ath-miR853-3p*	ath-miR853-3p*	Unassigned						
+ath-miR853-5p	ath-miR853-5p	Unassigned						
+ath-miR854a/b/c/d/e-5p	ath-miR854a-5p;ath-miR854b-5p;ath-miR854c-5p;ath-miR854d-5p;ath-miR854e	Unassigned						
+ath-miR854a-3p*	ath-miR854a-3p*;ath-miR854c-3p*	Unassigned						
+ath-miR854b/d-3p*	ath-miR854b-3p*;ath-miR854d-3p*	Unassigned						
+ath-miR854c-3p*	ath-miR854c-3p*	Unassigned						
+ath-miR855-3p*	ath-miR855-3p*	Unassigned						
+ath-miR855-5p	ath-miR855-5p	Unassigned						
+ath-miR856-3p*	ath-miR856-3p*	Unassigned						
+ath-miR856-5p	ath-miR856-5p	Unassigned						
+ath-miR857-3p	ath-miR857-3p	Unassigned						
+ath-miR857-5p*	ath-miR857-5p*	Unassigned						
+ath-miR858a-3p*	ath-miR858a-3p*	Unassigned						
+ath-miR858a-5p	ath-miR858a-5p	Unassigned						
+ath-miR858b-3p*	ath-miR858b-3p*	Unassigned						
+ath-miR858b-5p	ath-miR858b-5p	Unassigned						
+ath-miR859-3p*	ath-miR859-3p*	Unassigned						
+ath-miR859-5p	ath-miR859-5p	Unassigned						
+ath-miR860-3p	ath-miR860-3p	Unassigned						
+ath-miR860-5p*	ath-miR860-5p*	Unassigned						
+ath-miR861-3p	ath-miR861-3p	Unassigned						
+ath-miR861-5p	ath-miR861-5p	Unassigned						
+ath-miR862-3p	ath-miR862-3p	Short base-to-loop						
+ath-miR862-5p	ath-miR862-5p	Short base-to-loop						
+ath-miR863-3p	ath-miR863-3p	Unassigned						
+ath-miR863-5p	ath-miR863-5p	Unassigned						
+ath-miR864-3p	ath-miR864-3p	Short base-to-loop						
+ath-miR864-5p	ath-miR864-5p	Short base-to-loop						
+ath-miR865-3p	ath-miR865-3p	Unassigned						
+ath-miR865-5p	ath-miR865-5p	Unassigned						
+ath-miR866-3p	ath-miR866-3p	Unassigned						
+ath-miR866-5p	ath-miR866-5p	Unassigned						
+ath-miR867-3p*	ath-miR867-3p*	Unassigned						
+ath-miR867-5p	ath-miR867-5p	Unassigned						
+ath-miR868-3p	ath-miR868-3p	Unassigned						
+ath-miR868-5p*	ath-miR868-5p*	Unassigned						
+ath-miR869.1	ath-miR869.1	Unassigned						
+ath-miR869.2	ath-miR869.2	Unassigned						
+ath-miR870-3p	ath-miR870-3p	Unassigned						
+ath-miR870-5p*	ath-miR870-5p*	Unassigned						
