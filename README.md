@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-
 # 0_workflow.sh
 
 ## v1.0.1
