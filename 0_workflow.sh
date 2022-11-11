@@ -42,8 +42,8 @@ Basic Informations:
 
     hostname: `hostname`
     script: $0
-    Version: V1.0.0.20220927_Beta
-    Last update: 2022-09-27
+    Version: V1.0.0.20221111_Beta
+    Last update: 2022-11-11
 
 Settings:
 
@@ -368,7 +368,8 @@ if [ ! -d "$output/genome_len_dist/" ]; then
 	for i in ${list}
 		do
 			echo "length_distribution ${i}"
-			cat $output/map2genome/"$i"_aligned.fastq | perl -ne '$s=<>;<>;<>;chomp($s);print length($s)."\n";' | LC_ALL=C sort - | LC_ALL=C uniq -c | awk -v sample=$i '{a[NR]=$2;b[NR]=$1;sum+=$1}END{for(i in a){printf "%s\t%d\t%d\t%0.2f\n", sample,a[i],b[i],b[i]/sum*100}}' | LC_ALL=C sort -k 2 -n > $output/genome_len_dist/"$i"_len_dist.txt && pigz -p 8 $output/map2genome/"$i"_aligned.fastq &
+			# cat $output/map2genome/"$i"_aligned.fastq | perl -ne '$s=<>;<>;<>;chomp($s);print length($s)."\n";' | LC_ALL=C sort - | LC_ALL=C uniq -c | awk -v sample=$i '{a[NR]=$2;b[NR]=$1;sum+=$1}END{for(i in a){printf "%s\t%d\t%d\t%0.2f\n", sample,a[i],b[i],b[i]/sum*100}}' | LC_ALL=C sort -k 2 -n > $output/genome_len_dist/"$i"_len_dist.txt && pigz -p 8 $output/map2genome/"$i"_aligned.fastq &
+			python3 /bios-store1/chenyc/scripts/Github_scripts/size_dist/size_dist.py $output/map2genome/"$i"_aligned.fastq > $output/genome_len_dist/"$i"_len_dist.txt && pigz -p 8 $output/map2genome/"$i"_aligned.fastq && sed -i  "s%$output/map2genome/%%g ; s%_aligned.fastq%%g" $output/genome_len_dist/"$i"_len_dist.txt &
 			myvar=$(($myvar + 1 ))
 			if [ "$myvar" = "6" ]
 			then
@@ -378,8 +379,8 @@ if [ ! -d "$output/genome_len_dist/" ]; then
 		done
 		wait
 
-	cat $output/genome_len_dist/*_len_dist.txt > $output/genome_len_dist/len_dist_summary.tmp
-	awk 'BEGIN{OFS="\t";print "sample","length","count","percentage"}{print $0}' $output/genome_len_dist/len_dist_summary.tmp > $output/genome_len_dist/len_dist_summary.txt
+	cat $output/genome_len_dist/*_len_dist.txt > $output/genome_len_dist/len_dist_summary
+	# awk 'BEGIN{OFS="\t";print "sample","length","count","percentage"}{print $0}' $output/genome_len_dist/len_dist_summary.tmp > $output/genome_len_dist/len_dist_summary.txt
 	# cat $output/genome_len_dist/${list_arr[0]}_len_dist.txt > $output/genome_len_dist/tmp1
 	# for j in ${list_arr[@]:1}
 	#         do
