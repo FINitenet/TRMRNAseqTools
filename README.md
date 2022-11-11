@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-
 # 0_workflow.sh
 
 ## v1.0.1
@@ -99,3 +97,7 @@
 --使用更加规范的版本号
 
 --添加--aligned-only参数
+
+## V1.0.0.20221111_Beta(2022-11-11)
+
+--使用python scripts 统计 genome RNA length distribution
