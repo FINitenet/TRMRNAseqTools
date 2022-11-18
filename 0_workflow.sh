@@ -456,9 +456,9 @@ if  [ ! -d "$output/Annotation-all.reads" ]; then
 	echo '-----------------------------------------------'
 	mkdir -p $output/Annotation-all.reads
 	
-	echo "featureCounts -O --largestOverlap --fraction -t gene,ncRNA_gene -g biotype -T $thread -R BAM -a ${ath[all_type_annotation]} -o $output/Annotation-all.reads/all.type.annotation"         
+	echo "featureCounts -M -O --largestOverlap --fraction -t gene,ncRNA_gene -g biotype -T $thread -R BAM -a ${ath[all_type_annotation]} -o $output/Annotation-all.reads/all.type.annotation"         
 	
-		featureCounts -O --largestOverlap --fraction -t gene,ncRNA_gene -g biotype -T $thread -R BAM -a ${ath[all_type_annotation]} -o $output/Annotation-all.reads/all.type.annotation $output/ShortStack/*.bam > $output/Annotation-all.reads/log.txt 2>&1
+		featureCounts -M -O --largestOverlap --fraction -t gene,ncRNA_gene -g biotype -T $thread -R BAM -a ${ath[all_type_annotation]} -o $output/Annotation-all.reads/all.type.annotation $output/ShortStack/*.bam > $output/Annotation-all.reads/log.txt 2>&1
 	
 	echo "Editing Summary Files"
 	
@@ -486,12 +486,12 @@ if  [ ! -d "$output/Annotation-pri-miRNA" ]; then
 	echo "[ `date` ] Annotating miRNA reads"
 	echo '-----------------------------------------------'
 		mkdir -p $output/Annotation-pri-miRNA
-	echo "featureCounts -O -M -s 1 --largestOverlap -t miRNA_primary_transcript -g Name -T $thread -a ${ath[miRNA_annotation]} -o $output/Annotation-pri-miRNA/miRNA.hairpin.annotation"
-		featureCounts -O -M -s 1 --largestOverlap -t miRNA_primary_transcript -g Name -T $thread -a ${ath[miRNA_annotation]} -o $output/Annotation-pri-miRNA/miRNA.hairpin.annotation $output/ShortStack/*.bam > $output/Annotation-pri-miRNA/hairpin.log 2>&1
-	echo "featureCounts -O -M -s 1 --largestOverlap -t miRNA -g Name -T $thread -a ${ath[miRNA_annotation]} -o $output/Annotation-pri-miRNA/miRNA.mature.annotation"
-		featureCounts -O -M -s 1 --largestOverlap -t miRNA -g Name -T $thread -a ${ath[miRNA_annotation]} -o $output/Annotation-pri-miRNA/miRNA.mature.annotation $output/ShortStack/*.bam > $output/Annotation-pri-miRNA/mature.log 2>&1
-	echo "featureCounts -O -M -s 1 --largestOverlap -t miRNA -g Name -T $thread -R BAM -a ${ath[miRNA_re-annotation]} -o $output/Annotation-pri-miRNA/miRNA.re.annotation"
-		featureCounts -O -M -s 1 --largestOverlap -t miRNA -g Name -T $thread -R BAM -a ${ath[miRNA_re-annotation]} -o $output/Annotation-pri-miRNA/miRNA.re.annotation $output/ShortStack/*.bam > $output/Annotation-pri-miRNA/re.log 2>&1
+	echo "featureCounts -O -M --largestOverlap -t miRNA_primary_transcript -g Name -T $thread -a ${ath[miRNA_annotation]} -o $output/Annotation-pri-miRNA/miRNA.hairpin.annotation"
+		featureCounts -O -M --largestOverlap -t miRNA_primary_transcript -g Name -T $thread -a ${ath[miRNA_annotation]} -o $output/Annotation-pri-miRNA/miRNA.hairpin.annotation $output/ShortStack/*.bam > $output/Annotation-pri-miRNA/hairpin.log 2>&1
+	echo "featureCounts -O -M --largestOverlap -t miRNA -g Name -T $thread -a ${ath[miRNA_annotation]} -o $output/Annotation-pri-miRNA/miRNA.mature.annotation"
+		featureCounts -O -M --largestOverlap -t miRNA -g Name -T $thread -a ${ath[miRNA_annotation]} -o $output/Annotation-pri-miRNA/miRNA.mature.annotation $output/ShortStack/*.bam > $output/Annotation-pri-miRNA/mature.log 2>&1
+	echo "featureCounts -O -M --largestOverlap -t miRNA -g Name -T $thread -R BAM -a ${ath[miRNA_re-annotation]} -o $output/Annotation-pri-miRNA/miRNA.re.annotation"
+		featureCounts -O -M --largestOverlap -t miRNA -g Name -T $thread -R BAM -a ${ath[miRNA_re-annotation]} -o $output/Annotation-pri-miRNA/miRNA.re.annotation $output/ShortStack/*.bam > $output/Annotation-pri-miRNA/re.log 2>&1
 	
 	sed -i "s%$output/ShortStack/%%g ; s%_trimmed.bam%%g" $output/Annotation-pri-miRNA/miRNA.mature.annotation
 	sed -i "s%$output/ShortStack/%%g ; s%_trimmed.bam%%g" $output/Annotation-pri-miRNA/miRNA.hairpin.annotation
