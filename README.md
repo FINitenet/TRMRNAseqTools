@@ -15,34 +15,63 @@
 ## v2.0(2021-7-9)
 
 --使用getopt代替getopts，长选项现在可用
+
 --优化分析流程
+
 1.原始下机数据QC
+
 --rawreads number
+
 2.去除3'接头，低质量reads (-q 20 --trim-n)(reads length > 10nt)(map2genome)
+
 --reads numebr
+
 --reads length distribution(/genome_len_dist/)
+
 --extract reads with high count number (top100) (/uniq_reads_count/)
+
 3.保留自定义长度reads (目前的需求是18-28nt) (后续分析则继续使用该长度测序数据）
+
 --reads numebr
+
 4.有效数据（validata），即能够回帖到参考基因组的数据
+
 --reads numebr
+
 --percentage of validata (map number/Step3 number）
+
 5.干净数据（cleandata），即去除trsnoRNA后保留的数据
+
 --reads numebr
+
 --percentage of trsnoRNA (map number/Step4 number）
+
 6.RNA分型 (data source:Step3)
+
 --ShortStack解决multi-mapping reads分配的问题
+
 --featureCounts对reads type进行注释及统计，使用自定义的注释文件(/Annotation-all.reads/)
+
 --各类型reads长度分布(/Annotation-type_len_dis/)
+
 7.pri-miRNA count (data source:Step5)
+
 --featureCounts -O -M --fraction -s 1 --largestOverlap -t miRNA_primary_transcript -g Name 使用miRBase注释文件
+
 -O          Assign reads to all their overlapping meta-features (or features if -f is specified).
+
 -M          Multi-mapping reads will also be counted. For a multi-mapping read, all its reported alignments will be counted. The 'NH' tag in BAM/SAM input is used to detect multi-mapping reads.
+
 --fraction  Assign fractional counts to features. When both '-M' and '-O' are specified, each alignment will carry a fractional count of 1/(x*y).
+
 8.数据可视化
+
 --ShortStack bam2bw
+
 --JBrowse
+
 9.新sRNA loci预测
+
 --不完善，参考文章 [Integrated annotations and analyses of small RNA–producing loci from 47 diverse plants]
 
 ## v2.0.1(2021-7-22)
