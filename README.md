@@ -91,7 +91,6 @@
 
 --在对reads计数时，除对miRBase mature 以及hairpin的计数结果外，增加miRNA re-annotation的计数结果，并以miRNA family的形式重新求和计算。
 
-
 ## V1.0.0.20220927_Beta(2022-9-27)
 
 --使用更加规范的版本号
@@ -100,4 +99,10 @@
 
 ## V1.0.0.20221111_Beta(2022-11-11)
 
---使用python scripts 统计 genome RNA length distribution
+--使用python scripts 统计 genome RNA length distribution（size_dist.py)
+
+## V1.0.0.20221120_Beta(2022-11-20)
+
+--使用python scripts 统计各个长度上RNA的种类分布 (calc_feature_count_by_featureCounts_tags.py)
+
+--修改了一些文字描述
