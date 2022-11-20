@@ -7,7 +7,9 @@
 ## v1.0.2
 
 --删除featureCounts --fraction参数，无该参数时total reads增加1M左右，添加该参数则少0.5M左右，总体不影响。
+
 --增加rawdata QC
+
 --默认clean data长度在10-35nt，ShortStack reads分配以及RNA分型图均使用18-28nt
 
 ## v2.0(2021-7-9)
@@ -46,20 +48,27 @@
 ## v2.0.1(2021-7-22)
 
 --增加 miRNA hairpin 和 mature 的计数，参考文章 [Bioinformatics Analysis of Small RNAs in Plants Using Next Generation Sequencing Technologies]
+
 --增加 featureCounts --fraction 参数
 
 ## v2.0.2(2021-8-2)
 
 --优化mapping流程
+
 1.删除validata
+
 2.去接头仅保留大于10-nt reads
+
 3.map2genome为全长reads map(percentage of validata)
+
 4.map2trsnoRNA，去除ncRNA(percentage of trsnoRNA)
+
 5.re-map2genome，cleandata，保留为bowtie mapping genome methods
 
 ## v2.0.2b(2021-9-1)
 
 --本次更新仅做说明，没有功能及参数的改变
+
 --fraction参数除了使得多重注释reads的被按比例分配以外，会导致输出的结果文件中 "XT:Z:" 出现多个注释。虽然对type_len_dist的结果并没有影响(grep时未加-w，已确认过，只是total reads会有浮动)，但是对reads分类时仍然需要注意该问题。
 
 ## v2.0.3(2021-9-30)
@@ -70,13 +79,17 @@
 
 --对reads分类重新划分
 1.ncRNA --> otherRNA
+
 2.others --> NoFeatures --> otherRNA(only reads distribution used)
+
 (otherRNA=nontranslating_CDS+ncRNA+NoFeatures(others), results same as before just name changed)
+
 3.去除了在Airport11中的TAS基因
 
 ## V2.0.5a(2021-12-19)
 
 --增加miRNA re-annotation(mature miRNA merge by same sequence),仅保留该注释结果的BAM文件
+
 --优化多个结果文件，使其更符合R语言作图习惯
 
 ## V2.0.5b(2021-12-22)
