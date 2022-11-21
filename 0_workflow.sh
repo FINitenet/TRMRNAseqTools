@@ -7,11 +7,6 @@ helpdoc() {
 Description:
 
     This shellscript is used to run the pipeline to analysis small RNA sequence data
-    - Raw data processing: rawdata QC; Trim adapter; Nucleotide distribution.
-    - Clean data pre-processing: Map2genome(bowtie and ShortStack); Reads length distribution.
-    - Sorting Reads & Exporting summary file.
-    - Annotation reads with all.type.annotation and miRNA.
-    - Data Visualization. 
 
 Usage:
 
