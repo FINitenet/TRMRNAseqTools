@@ -449,7 +449,7 @@ if [ ! -d "$dir3/Annotation-all.reads" ]; then
 
 	awk 'NR>1{$2=$3=$4=$5=$6=null;print}' $dir3/Annotation-all.reads/all.type.annotation | awk '{for(i=1;i<NF;i++)printf("%s\t",$i);print $NF}' >$dir3/Annotation-all.reads/summary.txt
 
-	sed -i "1 s%$dir3/ShortStack/%%g ; s%_trimmed.bam%%g" $dir3/Annotation-all.reads/summary.txt
+	sed -i "1 s%$dir2/ShortStack/%%g ; s%_trimmed.bam%%g" $dir3/Annotation-all.reads/summary.txt
 
 	echo "Calculating the number of others reads"
 
