@@ -26,7 +26,7 @@ if [ ! -d "$output/Annotation-all.reads" ]; then
     echo "[ $(date) ] Annotation reads use all sRNA type"
     mkdir -p "$output/Annotation-all.reads"
     featureCounts -M -O --largestOverlap --fraction -t gene,ncRNA_gene -g biotype -T 24 -R BAM \
-        -a /bios-store1/chenyc/scripts/sRNA-seq_Analysis_Pipeline/reference/Arabidopsis_thaliana.TAIR10.53.md.gff3 \
+        -a /bios-store1/chenyc/scripts/TRMRNAseqTools/reference/Arabidopsis_thaliana.TAIR10.53.md.gff3 \
         -o $output/Annotation-all.reads/all.type.annotation $input/*.bam >$output/Annotation-all.reads/log.txt 2>&1
 fi
 
@@ -92,35 +92,35 @@ if [ ! -d "$output/Annotation-EI" ]; then
         echo "[ $(date) ] Processing: $i"
         if [[ "${array_trsnoRNA[@]}" =~ "${i}" ]]; then
 
-            featureCounts -O --largestOverlap -t ncRNA_gene -g ID -T 48 \
-                -a /bios-store1/chenyc/scripts/sRNA-seq_Analysis_Pipeline/reference/ath_trsnoRNA.gff3 \
+            featureCounts -O --largestOverlap -t ncRNA_gene -g ID -T 48 -R BAM \
+                -a /bios-store1/chenyc/scripts/TRMRNAseqTools/reference/ath_trsnoRNA.gff3 \
                 -o $output/Annotation-EI/"$i" $output/Annotation-level/*."$i".bam >$output/Annotation-EI/log."$i".txt 2>&1
 
             sed -i "s/$output\/Annotation-level\///g;s/.$i.bam//g" $output/Annotation-EI/"$i"
 
         elif [[ "$i" = "miRNA_primary_transcript" ]]; then
 
-            featureCounts -O --largestOverlap -t miRNA -g Name -s 1 -T 48 \
+            featureCounts -O --largestOverlap -t miRNA -g Name -T 48 -R BAM \
                 -a /bios-store1/chenyc/Reference_Source/Arabidopsis_Reference/ath.reannotation.gff3 \
                 -o $output/Annotation-EI/miRNA $output/Annotation-level/*miRNA_primary_transcript.bam >$output/Annotation-EI/log.miRNA.txt 2>&1
 
-            Z-combine_sRNA_by_id_from_featureCounts.py -i $output/Annotation-EI/miRNA -f /bios-store1/chenyc/Reference_Source/Arabidopsis_Reference/ath_mature_bowtie_index/PNAS_miRNA_ver.211213.fa -o $output/Annotation-EI/mature.combined
+            /bios-store1/chenyc/scripts/TRMRNAseqTools/module/combine_sRNA_by_id_from_featureCounts.py -i $output/Annotation-EI/miRNA -f /bios-store1/chenyc/Reference_Source/Arabidopsis_Reference/ath_mature_bowtie_index/PNAS_miRNA_ver.211213.fa -o $output/Annotation-EI/mature.combined
 
-            sed -i "s/$output\/Annotation-level\///g;s/."$i".miRNA_primary_transcript.bam//g" $output/Annotation-EI/miRNA
-            sed -i "s/$output\/Annotation-level\///g;s/."$i".miRNA_primary_transcript.bam//g" $output/Annotation-EI/mature.combined
+            sed -i "s/$output\/Annotation-level\///g;s/."$i".bam//g" $output/Annotation-EI/miRNA
+            sed -i "s/$output\/Annotation-level\///g;s/."$i".bam//g" $output/Annotation-EI/mature.combined
 
         elif [[ "$i" = "protein_coding" ]]; then
 
-            featureCounts -O --largestOverlap -t gene -g ID -T 48 \
-                -a /bios-store1/chenyc/scripts/sRNA-seq_Analysis_Pipeline/reference/ath_"$i".gff3 \
+            featureCounts -O --largestOverlap -t gene -g ID -T 48 -R BAM \
+                -a /bios-store1/chenyc/scripts/TRMRNAseqTools/reference/ath_"$i".gff3 \
                 -o $output/Annotation-EI/"$i" $output/Annotation-level/*."$i".bam >$output/Annotation-EI/log."$i".txt 2>&1
 
             sed -i "s/$output\/Annotation-level\///g;s/.$i.bam//g" $output/Annotation-EI/"$i"
 
         elif [[ "$i" = "otherRNA" ]]; then
 
-            featureCounts -O --largestOverlap -t ncRNA_gene -g Parent -T 48 \
-                -a /bios-store1/chenyc/scripts/sRNA-seq_Analysis_Pipeline/reference/ath_"$i".gff3 \
+            featureCounts -O --largestOverlap -t ncRNA_gene -g Parent -T 48 -R BAM \
+                -a /bios-store1/chenyc/scripts/TRMRNAseqTools/reference/ath_"$i".gff3 \
                 -o $output/Annotation-EI/"$i" $output/Annotation-level/*."$i".bam >$output/Annotation-EI/log."$i".txt 2>&1
 
             sed -i "s/$output\/Annotation-level\///g;s/.$i.bam//g" $output/Annotation-EI/"$i"
@@ -141,8 +141,8 @@ if [ ! -d "$output/Annotation-EI" ]; then
             done
         else
 
-            featureCounts -O --largestOverlap -t ncRNA_gene -g ID -T 48 \
-                -a /bios-store1/chenyc/scripts/sRNA-seq_Analysis_Pipeline/reference/ath_"$i".gff3 \
+            featureCounts -O --largestOverlap -t ncRNA_gene -g ID -T 48 -R BAM \
+                -a /bios-store1/chenyc/scripts/TRMRNAseqTools/reference/ath_"$i".gff3 \
                 -o $output/Annotation-EI/"$i" $output/Annotation-level/*."$i".bam >$output/Annotation-EI/log."$i".txt 2>&1
 
             sed -i "s/$output\/Annotation-level\///g;s/.$i.bam//g" $output/Annotation-EI/"$i"
