@@ -2,11 +2,11 @@ miRNA_primary_transcript
 phasi_tasiRNA
 hc-siRNA
 transposable_element
+lncRNA
+protein_coding
 snoRNA
 snRNA
 rRNA
 tRNA
-lncRNA
-protein_coding
 otherRNA
 Unassigned_NoFeatures
