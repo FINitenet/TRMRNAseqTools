@@ -510,18 +510,18 @@ if [ ! -d "$dir3/Annotation-type_len_dis/" ]; then
 	myvar=0
 	for i in ${list}; do
 		echo "[ $(date) ] Editing Summary Files for barplot"
-		mkdir -p $output/Annotation-type_len_dis/"$i"
+		mkdir -p $dir3/Annotation-type_len_dis/"$i"
 		for ((a=$min;a<$max+1;a++))
 			do
-			samtools view $output/Annotation-all.reads/"$i"_trimmed.bam.featureCounts.bam | awk -v len=$a '{gsub("M","",$6);if($6 == len) print $20,$22}' | sed -e 's/XS:Z:Assigned//g ; s/XT:Z:\|XS:Z://g ; s/Unassigned_NoFeatures/otherRNA/g ; s/ //g ; s/,/\n/g' > $output/Annotation-type_len_dis/"$i"/"$a".txt
-			LC_ALL=C sort $output/Annotation-type_len_dis/"$i"/"$a".txt | LC_ALL=C uniq -c | awk -v len=$a '{printf("%s\t%s\t%s\n",len,$2,$1)}' >> $output/Annotation-type_len_dis/"$i"/"$i".list
+			samtools view $dir3/Annotation-all.reads/"$i"_trimmed.bam.featureCounts.bam | awk -v len=$a '{gsub("M","",$6);if($6 == len) print $20,$22}' | sed -e 's/XS:Z:Assigned//g ; s/XT:Z:\|XS:Z://g ; s/Unassigned_NoFeatures/otherRNA/g ; s/ //g ; s/,/\n/g' > $dir3/Annotation-type_len_dis/"$i"/"$a".txt
+			LC_ALL=C sort $dir3/Annotation-type_len_dis/"$i"/"$a".txt | LC_ALL=C uniq -c | awk -v len=$a '{printf("%s\t%s\t%s\n",len,$2,$1)}' >> $dir3/Annotation-type_len_dis/"$i"/"$i".list
 			done
-		awk '{n+=$3}END{print n}' $output/Annotation-type_len_dis/"$i"/"$i".list > $output/Annotation-type_len_dis/"$i"/total.reads && total=$(cat $output/Annotation-type_len_dis/"$i"/total.reads)
-		awk -v n=$total '{printf("%s\t%s\t%s\t%.4f\n",$1,$2,$3,($3/n*100))}' $output/Annotation-type_len_dis/"$i"/"$i".list > $output/Annotation-type_len_dis/"$i"/"$i".summary
-		python3 $scriptDir/module/calc_feature_count_by_featureCounts_tags.py -i $dir3/Annotation-all.reads/"$i"_trimmed.bam.featureCounts.bam -o $dir3/Annotation-type_len_dis/"$i".avg.summary &
+		awk '{n+=$3}END{print n}' $dir3/Annotation-type_len_dis/"$i"/"$i".list > $dir3/Annotation-type_len_dis/"$i"/total.reads && total=$(cat $dir3/Annotation-type_len_dis/"$i"/total.reads)
+		awk -v n=$total '{printf("%s\t%s\t%s\t%.4f\n",$1,$2,$3,($3/n*100))}' $dir3/Annotation-type_len_dis/"$i"/"$i".list > $dir3/Annotation-type_len_dis/"$i"/"$i".summary
+		python3 $scriptDir/module/calc_feature_count_by_featureCounts_tags.py -i $dir3/Annotation-all.reads/"$i"_trimmed.bam.featureCounts.bam -o $dir3/Annotation-type_len_dis/"$i".avg.summary
 	done
-	rm -rf $output/Annotation-type_len_dis/*/*.txt
-	rm -rf $output/Annotation-type_len_dis/*/*.list
+	rm -rf $dir3/Annotation-type_len_dis/*/*.txt
+	rm -rf $dir3/Annotation-type_len_dis/*/*.list
 	echo "[ $(date) ] Run complete"
 	echo '-----------------------------------------------'
 fi
