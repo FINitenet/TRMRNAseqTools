@@ -260,7 +260,6 @@ if [ ! -d "$dir2/map2genome/" ]; then
 	wait
 
 	fastqc -t 16 $dir2/map2genome/*_aligned.fastq && multiqc $dir2/map2genome/ -o $dir2/map2genome/multiqc_result -n map2genome_QC
-	bash $scriptDir/module/7_summary_bowtie.sh $dir2/map2genome $dir2/map2genome $LIST
 	echo "[ $(date) ] Run complete"
 	echo '-----------------------------------------------'
 fi
@@ -309,7 +308,6 @@ if [ ! -d "$dir2/cleandata/" ]; then
 	wait
 
 	fastqc -t 16 $dir2/cleandata/*_aligned.fastq.gz && multiqc $dir2/cleandata/ -o $dir2/cleandata/multiqc_result -n cleandata_QC
-	bash $scriptDir/module/7_summary_bowtie.sh $dir2/cleandata $dir2/cleandata $LIST
 	echo "[ $(date) ] Run complete"
 	echo '-----------------------------------------------'
 fi
@@ -337,10 +335,15 @@ if [ ! -d "$dir2/ShortStack/" ]; then
 	mv ${output}/02.Mapping/ShortStack/*/*.bam ${output}/02.Mapping/ShortStack/
 	rm -rf $dir2/ShortStack/*_ShortStack
 
-	bash $scriptDir/module/7_summary_shortstack.sh $dir2/ShortStack $dir2/ShortStack $LIST
 	echo "[ $(date) ] Run complete"
 	echo '-----------------------------------------------'
 fi
+
+echo "[ $(date) ] Summary mapping results"
+echo '-----------------------------------------------'
+python3 $scriptDir/module/mapping_results_summary.py -i $dir2 -o $dir2
+echo "[ $(date) ] Run complete"
+echo '-----------------------------------------------'
 
 #reads length distribution
 if [ ! -d "$dir2/genome_len_dist/" ]; then
