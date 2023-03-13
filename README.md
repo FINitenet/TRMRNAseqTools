@@ -6,9 +6,10 @@ Author: Yuchen Cai
 
 Current Version: 1.0_Beta
 
-Latest updata: 11/20/2022
+Latest updata: 03/13/2023
 
 ## Introduction
+
 The TRMRNASeqTools is a SHELL and Python based pipeline designed for automatic general analysis for TRM sRNA sequencing data in supported plants.
 
 Currently it is able to process small RNA-seq and generally analyze them.
