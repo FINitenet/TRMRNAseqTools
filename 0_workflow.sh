@@ -494,7 +494,7 @@ if [ ! -d "$dir3/Annotation-pri-miRNA" ]; then
 	sed -i "s%$dir2/ShortStack/%%g ; s%_trimmed.bam%%g" $dir3/Annotation-pri-miRNA/miRNA.hairpin.annotation
 	sed -i "s%$dir2/ShortStack/%%g ; s%_trimmed.bam%%g" $dir3/Annotation-pri-miRNA/miRNA.re.annotation
 
-	python $scriptDir/module/combine_sRNA_by_id_from_featureCounts.py -i $dir3/Annotation-pri-miRNA/miRNA.re.annotation -f /bios-store1/chenyc/Reference_Source/Arabidopsis_Reference/ath_mature_bowtie_index/PNAS_miRNA_ver.211213.fa -o $dir3/Annotation-pri-miRNA/miRNA.re.combine
+	python3 $scriptDir/module/combine_sRNA_by_id_from_featureCounts.py -i $dir3/Annotation-pri-miRNA/miRNA.re.annotation -f /bios-store1/chenyc/Reference_Source/Arabidopsis_Reference/ath_mature_bowtie_index/PNAS_miRNA_ver.211213.fa -o $dir3/Annotation-pri-miRNA/miRNA.re.combine
 	echo "[ $(date) ] Run complete"
 	echo '-----------------------------------------------'
 fi
