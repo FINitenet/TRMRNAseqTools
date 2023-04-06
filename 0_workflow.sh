@@ -312,6 +312,29 @@ if [ ! -d "$dir2/cleandata/" ]; then
 	echo '-----------------------------------------------'
 fi
 
+if [ ! -d "$dir2/map2mirna/" ]; then
+	echo
+	echo
+	echo "[ $(date) ] filter reads -- mapping to grouped miRNA"
+	echo '-----------------------------------------------'
+	mkdir -p $dir2/map2mirna
+	myvar=0
+	for i in ${list}; do
+		echo "bowtie mapping to grouped miRNA ${i}"
+		bowtie -p $thread -v 0 --no-unal --best --strata -a -m 50 \
+			-x ${ath[miRNA_bowtie_index]} $dir2/cleandata/"$i"_aligned.fastq.gz \
+			-S $dir2/map2mirna/"$i".aligned.sam --al $dir2/map2mirna/"$i"_aligned.fastq >$dir2/map2mirna/"$i".mapresults.txt 2>&1 && pigz -p 8 $dir2/map2mirna/"$i"_aligned.fastq &
+		myvar=$(($myvar + 1))
+		if [ "$myvar" = "6" ]; then
+			myvar=0
+			wait
+		fi
+	done
+	wait
+	echo "[ $(date) ] Run complete"
+	echo '-----------------------------------------------'
+fi
+
 #ShortStack for multi-mapping reads 0-mismatch
 if [ ! -d "$dir2/ShortStack/" ]; then
 	echo
