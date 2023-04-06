@@ -10,6 +10,7 @@ import subprocess
 import pysam
 import argparse
 import datetime
+import pandas as pd
 from multiprocessing import Process
 
 def build_meta_info(meta_file):
@@ -31,8 +32,6 @@ def rawdata_qc(input_path, output_path):
         # subprocess.call(fastqc_cmd)
         fastqc_cmd = "fastqc -t 24 -o " + qc_path + " " + fastq_files
         os.system(fastqc_cmd)
-    else:
-        print("2_rawdata_qc already exists, skip this step.")
 
 
 # %%
@@ -65,8 +64,8 @@ def data_mapping(meta, input_path, output_path):
             mapping_result = os.path.join(mapping_path, key + "_aligned.sam")
             mapping_summary = os.path.join(mapping_path, key + "_mapping_summary.txt")
             if library_type == "paired":
-                fastq1 = os.path.join(input_path, key + "_val_1.fq.gz")
-                fastq2 = os.path.join(input_path, key + "_val_2.fq.gz")
+                fastq1 = os.path.join(input_path, key + "_1_val_1.fq.gz")
+                fastq2 = os.path.join(input_path, key + "_2_val_2.fq.gz")
                 mapping_cmd = [
                     "hisat2", "-p", "24", "-t",
                     "-x", bowtie2_index,
@@ -132,6 +131,15 @@ def gene_annotation(meta, input_path, output_path):
                     res = subprocess.run(anno_cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
                     log_file.write(res.stdout)
 
+            df = pd.read_csv(anno_path + key + ".gene.counts.txt", sep="\t", skiprows=[0])
+            # 获取样本名列表
+            sample_names = df.columns[1:]
+            # 去掉路径，并更新样本名
+            new_sample_names = [name.split('/')[-1].replace(".sam","") for name in sample_names]
+            df.columns = ['Geneid'] + new_sample_names
+            # 保存回文件
+            df.to_csv(anno_path + key + ".gene.counts.txt", sep='\t', index=False)
+
 def data_compress(sam_file, bam_file):
     pysam.sort("-o", bam_file, sam_file)
     pysam.index(bam_file)
@@ -144,7 +152,6 @@ def rna_preprocessing():
     mapping_path = data_mapping(meta, trim_path, args.outdir)
     gene_annotation(meta, mapping_path, args.outdir)
     
-
 # Argument parsing / help message / version
 parser = argparse.ArgumentParser(prog=os.path.basename(__file__))
 parser.add_argument("-v", "--version", action="version",
