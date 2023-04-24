@@ -336,6 +336,7 @@ if [ ! -d "$dir2/map2mirna/" ]; then
 fi
 
 #ShortStack for multi-mapping reads 0-mismatch
+#ShortStack version 3.8.5
 if [ ! -d "$dir2/ShortStack/" ]; then
 	echo
 	echo
@@ -378,7 +379,6 @@ if [ ! -d "$dir2/genome_len_dist/" ]; then
 	myvar=0
 	for i in ${list}; do
 		echo "length_distribution ${i}"
-		# cat $output/map2genome/"$i"_aligned.fastq | perl -ne '$s=<>;<>;<>;chomp($s);print length($s)."\n";' | LC_ALL=C sort - | LC_ALL=C uniq -c | awk -v sample=$i '{a[NR]=$2;b[NR]=$1;sum+=$1}END{for(i in a){printf "%s\t%d\t%d\t%0.2f\n", sample,a[i],b[i],b[i]/sum*100}}' | LC_ALL=C sort -k 2 -n > $output/genome_len_dist/"$i"_len_dist.txt && pigz -p 8 $dir2/map2genome/"$i"_aligned.fastq &
 		python3 $scriptDir/module/size_dist.py $dir2/map2genome/"$i"_aligned.fastq >$dir2/genome_len_dist/"$i"_len_dist.txt && pigz -p 8 $dir2/map2genome/"$i"_aligned.fastq && sed -i "s%$dir2/map2genome/%%g ; s%_aligned.fastq%%g" $dir2/genome_len_dist/"$i"_len_dist.txt &
 		myvar=$(($myvar + 1))
 		if [ "$myvar" = "6" ]; then
@@ -389,15 +389,6 @@ if [ ! -d "$dir2/genome_len_dist/" ]; then
 	wait
 
 	cat $dir2/genome_len_dist/*_len_dist.txt >$dir2/genome_len_dist/len_dist_summary
-	# awk 'BEGIN{OFS="\t";print "sample","length","count","percentage"}{print $0}' $output/genome_len_dist/len_dist_summary.tmp > $output/genome_len_dist/len_dist_summary.txt
-	# cat $output/genome_len_dist/${list_arr[0]}_len_dist.txt > $output/genome_len_dist/tmp1
-	# for j in ${list_arr[@]:1}
-	#         do
-	#         join $output/genome_len_dist/${j}_len_dist.txt $output/genome_len_dist/tmp1 > $output/genome_len_dist/tmp2
-	#         mv $output/genome_len_dist/tmp2 $output/genome_len_dist/tmp1
-	#         done
-	#         wait
-	# awk -v OFS='\t' '{$1=$1; print}' $output/genome_len_dist/tmp1 > $output/genome_len_dist/len_dist_summary.txt
 	echo "[ $(date) ] Run complete"
 	echo '-----------------------------------------------'
 fi
