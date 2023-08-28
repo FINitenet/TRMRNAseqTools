@@ -252,7 +252,7 @@ if [ ! -d "$dir2/map2genome/" ]; then
 			-x ${ath[genome_bowtie_index]} $dir1/trim_adapter/"$i"_trimmed.fq.gz \
 			-S $dir2/map2genome/"$i"_aligned.sam --al $dir2/map2genome/"$i"_aligned.fastq --un $dir2/map2genome/"$i"_unaligned.fastq >$dir2/map2genome/"$i".mapresults.txt 2>&1 &
 		myvar=$(($myvar + 1))
-		if [ "$myvar" = "6" ]; then
+		if [ "$myvar" = "3" ]; then
 			myvar=0
 			wait
 		fi
@@ -277,7 +277,7 @@ if [ ! -d "$dir2/map2trsnoRNA/" ]; then
 			-S $dir2/map2trsnoRNA/"$i".trsno.sam \
 			--un $dir2/map2trsnoRNA/"$i"_unaligned.fastq >$dir2/map2trsnoRNA/"$i".mapresults.txt 2>&1 &
 		myvar=$(($myvar + 1))
-		if [ "$myvar" = "6" ]; then
+		if [ "$myvar" = "3" ]; then
 			myvar=0
 			wait
 		fi
@@ -300,7 +300,7 @@ if [ ! -d "$dir2/cleandata/" ]; then
 			-x ${ath[genome_bowtie_index]} $dir2/map2trsnoRNA/"$i"_unaligned.fastq \
 			-S $dir2/cleandata/"$i".remap.sam --al $dir2/cleandata/"$i"_aligned.fastq >$dir2/cleandata/"$i".mapresults.txt 2>&1 && pigz -p 8 $dir2/cleandata/"$i"_aligned.fastq &
 		myvar=$(($myvar + 1))
-		if [ "$myvar" = "6" ]; then
+		if [ "$myvar" = "3" ]; then
 			myvar=0
 			wait
 		fi
@@ -325,7 +325,7 @@ if [ ! -d "$dir2/map2mirna/" ]; then
 			-x ${ath[miRNA_bowtie_index]} $dir2/cleandata/"$i"_aligned.fastq.gz \
 			-S $dir2/map2mirna/"$i".aligned.sam --al $dir2/map2mirna/"$i"_aligned.fastq >$dir2/map2mirna/"$i".mapresults.txt 2>&1 && pigz -p 8 $dir2/map2mirna/"$i"_aligned.fastq &
 		myvar=$(($myvar + 1))
-		if [ "$myvar" = "6" ]; then
+		if [ "$myvar" = "3" ]; then
 			myvar=0
 			wait
 		fi
@@ -350,7 +350,7 @@ if [ ! -d "$dir2/ShortStack/" ]; then
 			--mmap u --bowtie_m 1000 --ranmax 50 --mismatches 0 \
 			--bowtie_cores $thread --readfile $dir1/$min-$max/"$i"_trimmed.fq.gz && mv $dir2/ShortStack/"$i"_ShortStack/Log.txt $dir2/ShortStack/"$i".log &
 		myvar=$(($myvar + 1))
-		if [ "$myvar" = "6" ]; then
+		if [ "$myvar" = "3" ]; then
 			myvar=0
 			wait
 		fi

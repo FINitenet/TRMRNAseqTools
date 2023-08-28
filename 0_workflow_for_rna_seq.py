@@ -42,8 +42,8 @@ def data_trim(meta, input_path, output_path):
         for key, values in meta.items():
             library_type = values[2]
             if library_type == "paired":
-                fastq1 = os.path.join(input_path, key + "_1.fastq.gz")
-                fastq2 = os.path.join(input_path, key + "_2.fastq.gz")
+                fastq1 = os.path.join(input_path, key + "_R1_001.fastq.gz")
+                fastq2 = os.path.join(input_path, key + "_R2_001.fastq.gz")
                 trim_cmd = ["trim_galore", "--paired", "--fastqc", "--gzip", "--suppress_warn", "-j", "24", "-o", trim_path, fastq1, fastq2]
                 subprocess.run(trim_cmd, check=True)
             elif library_type == "single":
@@ -64,8 +64,8 @@ def data_mapping(meta, input_path, output_path):
             mapping_result = os.path.join(mapping_path, key + "_aligned.sam")
             mapping_summary = os.path.join(mapping_path, key + "_mapping_summary.txt")
             if library_type == "paired":
-                fastq1 = os.path.join(input_path, key + "_1_val_1.fq.gz")
-                fastq2 = os.path.join(input_path, key + "_2_val_2.fq.gz")
+                fastq1 = os.path.join(input_path, key + "_R1_001_val_1.fq.gz")
+                fastq2 = os.path.join(input_path, key + "_R2_001_val_2.fq.gz")
                 mapping_cmd = [
                     "hisat2", "-p", "24", "-t",
                     "-x", bowtie2_index,
@@ -98,19 +98,20 @@ def gene_annotation(meta, input_path, output_path):
         for key, values in meta.items():
             library_type = values[2]
             mapping_file = os.path.join(input_path, key + "_aligned.sam")
-            
+            # mapping_file = os.path.join(input_path, key + "_aligned.sorted.bam")
             if library_type == "paired":
                 anno_cmd = [
                     "featureCounts",
                     "-a", gff_file,
-                    "-o", anno_path + key + ".gene.counts.txt",
+                    "-o", anno_path + key + ".gene.counts",
                     mapping_file,
                     "-t", "gene,ncRNA_gene",
                     "-g", "ID",
                     "-T", "48",
                     "-R", "BAM",
                     "-p",
-                    "--largestOverlap"
+                    "-O",
+                    "-M"
                 ]
                 with open(anno_path + key + ".log", "wb") as log_file:
                     res = subprocess.run(anno_cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
@@ -125,20 +126,22 @@ def gene_annotation(meta, input_path, output_path):
                     "-g", "ID",
                     "-T", "48",
                     "-R", "BAM",
-                    "--largestOverlap"
+                    "-O",
+                    "-M"
                 ]
                 with open(anno_path + key + ".log", "wb") as log_file:
                     res = subprocess.run(anno_cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
                     log_file.write(res.stdout)
 
-            df = pd.read_csv(anno_path + key + ".gene.counts.txt", sep="\t", skiprows=[0])
+            df = pd.read_csv(anno_path + key + ".gene.counts", sep="\t", skiprows=[0])
             # 获取样本名列表
             sample_names = df.columns[1:]
             # 去掉路径，并更新样本名
             new_sample_names = [name.split('/')[-1].replace(".sam","") for name in sample_names]
             df.columns = ['Geneid'] + new_sample_names
             # 保存回文件
-            df.to_csv(anno_path + key + ".gene.counts.txt", sep='\t', index=False)
+            df.to_csv(anno_path + key + ".gene.counts", sep='\t', index=False)
+    return(anno_path)
 
 def data_compress(sam_file, bam_file):
     pysam.sort("-o", bam_file, sam_file)
@@ -150,7 +153,40 @@ def rna_preprocessing():
     rawdata_qc(input_path, output_path)
     trim_path = data_trim(meta, input_path, args.outdir)
     mapping_path = data_mapping(meta, trim_path, args.outdir)
-    gene_annotation(meta, mapping_path, args.outdir)
+    anno_path = gene_annotation(meta, mapping_path, args.outdir)
+    merge_gene_matrix(anno_path)
+
+def merge_gene_matrix(anno_path):
+    # 要查找的目录路径
+    path = anno_path
+
+    # 合并结果保存的文件路径
+    output_file = anno_path + "merged_gene_matrix.txt"
+
+    columns_to_merge = 6  # 前多少列需要合并，根据不同的定量方法进行修改，这里是featureCounts的结果，需要合并前6列
+
+    # 定义用于保存数据的字典
+    data_dict = {}
+
+    # 遍历指定目录下的所有文件
+    for file in os.listdir(path):
+        # 如果文件名以 "gene.counts" 结尾
+        if file.endswith("gene.counts"):
+            # 打开文件并逐行读取
+            with open(os.path.join(path, file), "r") as f:
+                for line in f:
+                    line_data = tuple(line.strip().split("\t")[:columns_to_merge])
+                    # 将前 columns_to_merge 列作为键将行数据添加到 data_dict 中
+                    if line_data not in data_dict:
+                        data_dict[line_data] = line.strip().split("\t")[columns_to_merge:]
+                    else:
+                        data_dict[line_data].extend(line.strip().split("\t")[columns_to_merge:])
+            
+    # 将结果写入输出文件中
+    with open(output_file, "w") as out_f:
+        for key, values in data_dict.items():
+            out_f.write("\t".join(list(key) + values) + "\n")
+
     
 # Argument parsing / help message / version
 parser = argparse.ArgumentParser(prog=os.path.basename(__file__))
