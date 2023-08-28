@@ -1,0 +1,7 @@
+chr1,Chr1
+chr2,chr2
+chr3,Chr3
+chr4,Chr4
+chr5,Chr5
+chrC,ChrC
+chrM,ChrM
