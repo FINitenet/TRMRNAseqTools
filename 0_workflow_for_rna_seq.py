@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 # -*- coding:utf-8 -*-
 # @FileName  :0_workflow_for_rna_seq.py
-# @Time      :2023/03/16 16:28:47
+# @Time      :2023/10/08 23:22:50
 # @Author    :Yuchen@rlab
 
 import os
@@ -13,148 +13,138 @@ import datetime
 import pandas as pd
 from multiprocessing import Process
 
-def build_meta_info(meta_file):
-    with open(meta_file, "r") as f:
-        file_lines = f.readlines()
-        meta = {}
-        for line in file_lines:
-            values = line.strip().split(" ")
-            key = values[0]
-            meta[key] = values[1:]
-        return(meta)
 
-def rawdata_qc(input_path, output_path):
-    qc_path = os.path.join(output_path, "2_rawdata_qc/")
-    if not os.path.exists(qc_path):
-        os.mkdir(qc_path)
-        fastq_files = os.path.join(input_path, "*.fastq.gz")
-        # fastqc_cmd = ["fastqc", "-t", "24", fastq_files,"-o", qc_path]
-        # subprocess.call(fastqc_cmd)
-        fastqc_cmd = "fastqc -t 24 -o " + qc_path + " " + fastq_files
-        os.system(fastqc_cmd)
-
-
-# %%
-def data_trim(meta, input_path, output_path):
-    trim_path = os.path.join(output_path, "3_trimmed_data/")
+def build_meta_dict(input_path):
+    meta_dict = {}
+    # Define the allowed library layouts
+    allowed_layouts = ['PAIRED', 'SINGLE']
+    # Check if the library layout is valid
+    if library_layouts not in allowed_layouts:
+        print('ERROR: library_layouts is not PAIRED or SINGLE')
+    else:
+    # Loop over all files in the directory
+        for filename in os.listdir(input_path):
+        # Loop over all run accessions
+            for run in run_accessions:
+            # Check if the filename starts with the run accession
+                if filename.startswith(run):
+                # Check the library layout
+                    if library_layouts == 'PAIRED':
+                    # Check if the filename ends with _1.fastq.gz or _2.fastq.gz
+                        if filename.endswith(('_1.fastq.gz', '_2.fastq.gz')):
+                            filename = filename.replace('.fastq.gz', '')
+                            meta_dict.setdefault(run, []).append(filename)
+                    elif library_layouts == 'SINGLE':
+                    # Check if the filename ends with .fastq.gz
+                        if filename.endswith('.fastq.gz'):
+                            filename = filename.replace('.fastq.gz', '')
+                            meta_dict.setdefault(run, []).append(filename)
+    return meta_dict
+        
+def data_trim(meta_dict, trim_path):
     if not os.path.exists(trim_path):
         os.mkdir(trim_path)
-        for key, values in meta.items():
-            library_type = values[2]
-            if library_type == "paired":
-                fastq1 = os.path.join(input_path, key + "_R1_001.fastq.gz")
-                fastq2 = os.path.join(input_path, key + "_R2_001.fastq.gz")
-                trim_cmd = ["trim_galore", "--paired", "--fastqc", "--gzip", "--suppress_warn", "-j", "24", "-o", trim_path, fastq1, fastq2]
-                subprocess.run(trim_cmd, check=True)
-            elif library_type == "single":
-                fastq = os.path.join(input_path, key + ".fastq.gz")
-                trim_cmd = ["trim_galore", "--fastqc", "--gzip", "--suppress_warn", "-j", "24", "-o", trim_path, fastq]
-                subprocess.run(trim_cmd, check=True)
-            else:
-                print("Error: %s" % library_type)
-    return(trim_path)
+    for key, values in meta_dict.items():
+        if library_layouts == 'PAIRED':
+            fastq1 = os.path.join(input_path, values[0] + ".fastq.gz")
+            fastq2 = os.path.join(input_path, values[1] + ".fastq.gz")
+            trim_cmd = ["trim_galore", "--paired", "--fastqc", "--gzip", "--suppress_warn", "-j", "8", "-o", trim_path, fastq1, fastq2]
+            subprocess.run(trim_cmd, check=True)
+        elif library_layouts == 'SINGLE':
+            fastq = os.path.join(input_path, values[0] + ".fastq.gz")
+            trim_cmd = ["trim_galore", "--fastqc", "--gzip", "--suppress_warn", "-j", "8", "-o", trim_path, fastq]
+            subprocess.run(trim_cmd, check=True)
+        else:
+            print("ERROR: library_layouts is not PAIRED or SINGLE")
+    print("Trimming is done!")
 
-# %%
-def data_mapping(meta, input_path, output_path):
-    mapping_path = os.path.join(output_path, "4_mapping/")
+
+def data_mapping(meta_dict, mapping_path):
     if not os.path.exists(mapping_path):
         os.mkdir(mapping_path)
-        for key, values in meta.items():
-            library_type = values[2]
-            mapping_result = os.path.join(mapping_path, key + "_aligned.sam")
-            mapping_summary = os.path.join(mapping_path, key + "_mapping_summary.txt")
-            if library_type == "paired":
-                fastq1 = os.path.join(input_path, key + "_R1_001_val_1.fq.gz")
-                fastq2 = os.path.join(input_path, key + "_R2_001_val_2.fq.gz")
-                mapping_cmd = [
-                    "hisat2", "-p", "24", "-t",
-                    "-x", bowtie2_index,
-                    "-1", fastq1, "-2", fastq2,
-                    "-S", mapping_result,
-                    "--summary-file", mapping_summary,
-                    "--new-summary", "--no-unal", "--dta"
-                ]
-                subprocess.run(mapping_cmd, check=True)
-            elif library_type == "single":
-                fastq = os.path.join(input_path, key + "_trimmed.fq.gz")
-                mapping_cmd = [
-                    "hisat2", "-p", "24", "-t",
-                    "-x", bowtie2_index,
-                    "-U", fastq,
-                    "-S", mapping_result,
-                    "--summary-file", mapping_summary,
-                    "--new-summary", "--no-unal", "--dta"
-                ]
-                subprocess.run(mapping_cmd, check=True)
-            else:
-                print("Error: %s" % library_type)
+    for key, values in meta_dict.items():
+        mapping_result = os.path.join(mapping_path, key + "_aligned.sam")
+        mapping_summary = os.path.join(mapping_path, key + "_mapping_summary.txt")
+        if library_layouts == 'PAIRED':
+            fastq1 = os.path.join(trim_path, values[0] + "_val_1.fq.gz")
+            fastq2 = os.path.join(trim_path, values[1] + "_val_2.fq.gz")
+            mapping_cmd = [
+                "hisat2", "-p", "24", "-t",
+                "-x", hisat_index,
+                "-1", fastq1, "-2", fastq2,
+                "-S", mapping_result,
+                "--summary-file", mapping_summary,
+                "--new-summary", "--no-unal", "--dta"
+            ]
+            subprocess.run(mapping_cmd, check=True)
+        elif library_layouts == 'SINGLE':
+            fastq = os.path.join(trim_path, values[0] + "_trimmed.fq.gz")
+            mapping_cmd = [
+                "hisat2", "-p", "24", "-t",
+                "-x", hisat_index,
+                "-U", fastq,
+                "-S", mapping_result,
+                "--summary-file", mapping_summary,
+                "--new-summary", "--no-unal", "--dta"
+            ]
+            subprocess.run(mapping_cmd, check=True)
+        else:
+            print("ERROR: library_layouts is not PAIRED or SINGLE")
     return(mapping_path)
 
-# %%
-def gene_annotation(meta, input_path, output_path):
-    anno_path = os.path.join(output_path, "5_gene_annotation/")
+def gene_annotation(meta, anno_path):
     if not os.path.exists(anno_path):
         os.mkdir(anno_path)
-        for key, values in meta.items():
-            library_type = values[2]
-            mapping_file = os.path.join(input_path, key + "_aligned.sam")
-            # mapping_file = os.path.join(input_path, key + "_aligned.sorted.bam")
-            if library_type == "paired":
-                anno_cmd = [
-                    "featureCounts",
-                    "-a", gff_file,
-                    "-o", anno_path + key + ".gene.counts",
-                    mapping_file,
-                    "-t", "gene,ncRNA_gene",
-                    "-g", "ID",
-                    "-T", "48",
-                    "-R", "BAM",
-                    "-p",
-                    "-O",
-                    "-M"
-                ]
-                with open(anno_path + key + ".log", "wb") as log_file:
-                    res = subprocess.run(anno_cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-                    log_file.write(res.stdout) 
-            elif library_type == "single":
-                anno_cmd = [
-                    "featureCounts",
-                    "-a", gff_file,
-                    "-o", anno_path + key + ".gene.counts",
-                    mapping_file,
-                    "-t", "gene,ncRNA_gene",
-                    "-g", "ID",
-                    "-T", "48",
-                    "-R", "BAM",
-                    "-O",
-                    "-M"
-                ]
-                with open(anno_path + key + ".log", "wb") as log_file:
-                    res = subprocess.run(anno_cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-                    log_file.write(res.stdout)
+    for key, values in meta.items():
+        mapping_file = os.path.join(mapping_path, key + "_aligned.sam")
+        if library_layouts == 'PAIRED':
+            anno_cmd = [
+                "featureCounts",
+                "-a", gff_file,
+                "-o", anno_path + key + ".gene.counts",
+                mapping_file,
+                "-t", "gene,ncRNA_gene",
+                "-g", "ID",
+                "--extraAttributes", "biotype",
+                "-T", "48",
+                "-p",
+                "-O",
+                "-M"
+            ]
+            with open(anno_path + key + ".log", "wb") as log_file:
+                res = subprocess.run(anno_cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+                log_file.write(res.stdout) 
+        elif library_layouts == 'SINGLE':
+            anno_cmd = [
+                "featureCounts",
+                "-a", gff_file,
+                "-o", anno_path + key + ".gene.counts",
+                mapping_file,
+                "-t", "gene,ncRNA_gene",
+                "-g", "ID",
+                "--extraAttributes", "biotype",
+                "-T", "48",
+                "-O",
+                "-M"
+            ]
+            with open(anno_path + key + ".log", "wb") as log_file:
+                res = subprocess.run(anno_cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+                log_file.write(res.stdout)
 
-            df = pd.read_csv(anno_path + key + ".gene.counts", sep="\t", skiprows=[0])
-            # 获取样本名列表
-            sample_names = df.columns[1:]
-            # 去掉路径，并更新样本名
-            new_sample_names = [name.split('/')[-1].replace(".sam","") for name in sample_names]
-            df.columns = ['Geneid'] + new_sample_names
-            # 保存回文件
-            df.to_csv(anno_path + key + ".gene.counts", sep='\t', index=False)
-    return(anno_path)
+        df = pd.read_csv(anno_path + key + ".gene.counts", sep="\t", skiprows=[0])
+        # 获取样本名列表
+        sample_names = df.columns[1:]
+        # 去掉路径，并更新样本名
+        new_sample_names = [name.split('/')[-1].replace(".sam","") for name in sample_names]
+        df.columns = ['Geneid'] + new_sample_names
+        # 保存回文件
+        df.to_csv(anno_path + key + ".gene.counts", sep='\t', index=False)
+
 
 def data_compress(sam_file, bam_file):
     pysam.sort("-o", bam_file, sam_file)
     pysam.index(bam_file)
     os.remove(sam_file)
-
-def rna_preprocessing():
-    meta = build_meta_info(meta_file)
-    rawdata_qc(input_path, output_path)
-    trim_path = data_trim(meta, input_path, args.outdir)
-    mapping_path = data_mapping(meta, trim_path, args.outdir)
-    anno_path = gene_annotation(meta, mapping_path, args.outdir)
-    merge_gene_matrix(anno_path)
 
 def merge_gene_matrix(anno_path):
     # 要查找的目录路径
@@ -163,7 +153,7 @@ def merge_gene_matrix(anno_path):
     # 合并结果保存的文件路径
     output_file = anno_path + "merged_gene_matrix.txt"
 
-    columns_to_merge = 6  # 前多少列需要合并，根据不同的定量方法进行修改，这里是featureCounts的结果，需要合并前6列
+    columns_to_merge = 7  # 前多少列需要合并，根据不同的定量方法进行修改，这里是featureCounts的结果，需要合并前6列
 
     # 定义用于保存数据的字典
     data_dict = {}
@@ -187,11 +177,10 @@ def merge_gene_matrix(anno_path):
         for key, values in data_dict.items():
             out_f.write("\t".join(list(key) + values) + "\n")
 
-    
 # Argument parsing / help message / version
 parser = argparse.ArgumentParser(prog=os.path.basename(__file__))
 parser.add_argument("-v", "--version", action="version",
-                    version='%(prog)s v1.0.20230321')
+                    version='%(prog)s v1.0.20231008')
 parser.add_argument("-i", "--inputdir", type= str, default= os.getcwd(),
                     help="path to input directory, default is current directory")
 parser.add_argument("-o", "--outdir", type= str, default= os.getcwd(),
@@ -209,17 +198,38 @@ if __name__ == "__main__":
     print('Start Time:', startTime)
     
     # global parameters
+    # input_path = '/home/chenyc/Bioinformatics/chenyc/DataBase/NCBI/DataBase_RNA/PRJNA893215'
+    # output_path = '/home/chenyc/Bioinformatics/chenyc/test/test4rna'
     input_path = args.inputdir
     output_path = args.outdir
-    meta_file = args.batch_file
-    bowtie2_index = "/bios-store1/chenyc/Reference_Source/Arabidopsis_Reference/ath_chr_hisat_index/Arabidopsis_thaliana.TAIR10.dna.toplevel"
-    gff_file = "/bios-store1/chenyc/Reference_Source/Arabidopsis_Reference/Arabidopsis_thaliana.TAIR10.53.chr.ridsiRNA.gff3"
+
+    hisat_index = '/bios-store1/chenyc/Reference_Source/Arabidopsis_Reference/ath_chr_hisat_index/Arabidopsis_thaliana.TAIR10.dna.toplevel'
+    gff_file = '/home/chenyc/Bioinformatics/chenyc/Reference_Source/Arabidopsis_Reference/Arabidopsis_thaliana.TAIR10.53.chr.ridsiRNA.gff3'
+
+    trim_path = os.path.join(output_path, "1_trimmed_data/")
+    mapping_path = os.path.join(output_path, "2_map2genome/")
+    anno_path = os.path.join(output_path, "3_gene_annotation/")
+
+    # Read the SraRunTable.txt file as a DataFrame
+    meta = pd.read_csv(args.batch_file)
+    library_layouts = meta['LibraryLayout'].unique()
+    run_accessions = meta['Run'].unique()
     
-    # main pipeline
-    rna_preprocessing()
-    
-    # compress sam files to bam files
-    sam_files = glob.glob(os.path.join(output_path + "/4_mapping/", "*.sam"))
+    # Step1: data trimming
+    # build meta dict
+    meta_dict = build_meta_dict(input_path)
+    # data trimming
+    data_trim(meta_dict, trim_path)
+    # Step2: data mapping
+    # data mapping
+    mapping_path = data_mapping(meta_dict, mapping_path)
+    # Step3: gene annotation
+    # gene annotation
+    gene_annotation(meta_dict, anno_path)
+    # merge gene matrix
+    merge_gene_matrix(anno_path)
+    # Step4: compress sam files to bam files
+    sam_files = glob.glob(os.path.join(output_path + "/2_map2genome/", "*.sam"))
     progress = []
     for sam_file in sam_files:
         bam_file = sam_file.replace(".sam", ".sorted.bam")

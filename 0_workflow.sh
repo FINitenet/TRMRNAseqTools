@@ -178,12 +178,12 @@ dir4=$output/04.VIs
 if [ ! -d "$dir1/rawdata_qc/" ]; then
 	echo
 	echo
-	echo "[ $(date) ] rawdata QC"
+	echo "[ `date` ] rawdata QC"
 	echo '-----------------------------------------------'
 	mkdir -p $dir1/rawdata_qc
 	fastqc -t 16 --nogroup -o $dir1/rawdata_qc $input/*.$tag
 	multiqc $dir1/rawdata_qc -o $dir1/rawdata_qc/multiqc_result/ -n rawdata_QC
-	echo "[ $(date) ] Run complete"
+	echo "[ `date` ] Run complete"
 	echo '-----------------------------------------------'
 fi
 
@@ -191,7 +191,7 @@ fi
 if [ ! -d "$dir1/trim_adapter/" ]; then
 	echo
 	echo
-	echo "[ $(date) ] Remove the 3′adapter with trim_galore and rename sample name"
+	echo "[ `date` ] Remove the 3′adapter with trim_galore and rename sample name"
 	echo '-----------------------------------------------'
 	mkdir -p $dir1/trim_adapter
 	myvar=0
@@ -207,7 +207,7 @@ if [ ! -d "$dir1/trim_adapter/" ]; then
 	wait
 
 	multiqc $dir1/trim_adapter/ -o $dir1/trim_adapter/multiqc_result -n trim_adapter_QC
-	echo "[ $(date) ] Run complete"
+	echo "[ `date` ] Run complete"
 	echo '-----------------------------------------------'
 fi
 
@@ -215,7 +215,7 @@ fi
 if [ ! -d "$dir1/$min-$max/" ]; then
 	echo
 	echo
-	echo "[ $(date) ] filter reads -- keep reads length in ${min}-${max} nt"
+	echo "[ `date` ] filter reads -- keep reads length in ${min}-${max} nt"
 	echo '-----------------------------------------------'
 	mkdir -p $dir1/$min-$max
 	myvar=0
@@ -230,7 +230,7 @@ if [ ! -d "$dir1/$min-$max/" ]; then
 	done
 	wait
 
-	echo "[ $(date) ] Run complete"
+	echo "[ `date` ] Run complete"
 	echo '-----------------------------------------------'
 fi
 
@@ -242,7 +242,7 @@ fi
 if [ ! -d "$dir2/map2genome/" ]; then
 	echo
 	echo
-	echo "[ $(date) ] filter reads -- mapping to ${genome} genome"
+	echo "[ `date` ] filter reads -- mapping to ${genome} genome"
 	echo '-----------------------------------------------'
 	mkdir -p $dir2/map2genome
 	myvar=0
@@ -260,14 +260,14 @@ if [ ! -d "$dir2/map2genome/" ]; then
 	wait
 
 	fastqc -t 16 $dir2/map2genome/*_aligned.fastq && multiqc $dir2/map2genome/ -o $dir2/map2genome/multiqc_result -n map2genome_QC
-	echo "[ $(date) ] Run complete"
+	echo "[ `date` ] Run complete"
 	echo '-----------------------------------------------'
 fi
 
 if [ ! -d "$dir2/map2trsnoRNA/" ]; then
 	echo
 	echo
-	echo "[ $(date) ] filter reads -- mapping to ncRNA seq (rRNA, tRNA, etc)"
+	echo "[ `date` ] filter reads -- mapping to ncRNA seq (rRNA, tRNA, etc)"
 	echo '-----------------------------------------------'
 	mkdir -p $dir2/map2trsnoRNA
 	myvar=0
@@ -283,14 +283,14 @@ if [ ! -d "$dir2/map2trsnoRNA/" ]; then
 		fi
 	done
 	wait
-	echo "[ $(date) ] Run complete"
+	echo "[ `date` ] Run complete"
 	echo '-----------------------------------------------'
 fi
 
 if [ ! -d "$dir2/cleandata/" ]; then
 	echo
 	echo
-	echo "[ $(date) ] filter reads -- re-mapping to ${genome} genome"
+	echo "[ `date` ] filter reads -- re-mapping to ${genome} genome"
 	echo '-----------------------------------------------'
 	mkdir -p $dir2/cleandata
 	myvar=0
@@ -308,14 +308,14 @@ if [ ! -d "$dir2/cleandata/" ]; then
 	wait
 
 	fastqc -t 16 $dir2/cleandata/*_aligned.fastq.gz && multiqc $dir2/cleandata/ -o $dir2/cleandata/multiqc_result -n cleandata_QC
-	echo "[ $(date) ] Run complete"
+	echo "[ `date` ] Run complete"
 	echo '-----------------------------------------------'
 fi
 
 if [ ! -d "$dir2/map2mirna/" ]; then
 	echo
 	echo
-	echo "[ $(date) ] filter reads -- mapping to grouped miRNA"
+	echo "[ `date` ] filter reads -- mapping to grouped miRNA"
 	echo '-----------------------------------------------'
 	mkdir -p $dir2/map2mirna
 	myvar=0
@@ -331,7 +331,7 @@ if [ ! -d "$dir2/map2mirna/" ]; then
 		fi
 	done
 	wait
-	echo "[ $(date) ] Run complete"
+	echo "[ `date` ] Run complete"
 	echo '-----------------------------------------------'
 fi
 
@@ -340,7 +340,7 @@ fi
 if [ ! -d "$dir2/ShortStack/" ]; then
 	echo
 	echo
-	echo "[ $(date) ] Use ShortStack to assign reads"
+	echo "[ `date` ] Use ShortStack to assign reads"
 	echo '-----------------------------------------------'
 	mkdir -p $dir2/ShortStack
 	myvar=0
@@ -359,21 +359,21 @@ if [ ! -d "$dir2/ShortStack/" ]; then
 	mv ${output}/02.Mapping/ShortStack/*/*.bam ${output}/02.Mapping/ShortStack/
 	rm -rf $dir2/ShortStack/*_ShortStack
 
-	echo "[ $(date) ] Run complete"
+	echo "[ `date` ] Run complete"
 	echo '-----------------------------------------------'
 fi
 
-echo "[ $(date) ] Summary mapping results"
+echo "[ `date` ] Summary mapping results"
 echo '-----------------------------------------------'
 python3 $scriptDir/module/mapping_results_summary.py -i $dir2 -o $dir2
-echo "[ $(date) ] Run complete"
+echo "[ `date` ] Run complete"
 echo '-----------------------------------------------'
 
 #reads length distribution
 if [ ! -d "$dir2/genome_len_dist/" ]; then
 	echo
 	echo
-	echo "[ $(date) ] Analysis reads length distribution"
+	echo "[ `date` ] Analysis reads length distribution"
 	echo '-----------------------------------------------'
 	mkdir -p $dir2/genome_len_dist
 	myvar=0
@@ -389,7 +389,7 @@ if [ ! -d "$dir2/genome_len_dist/" ]; then
 	wait
 
 	cat $dir2/genome_len_dist/*_len_dist.txt >$dir2/genome_len_dist/len_dist_summary
-	echo "[ $(date) ] Run complete"
+	echo "[ `date` ] Run complete"
 	echo '-----------------------------------------------'
 fi
 
@@ -397,7 +397,7 @@ fi
 if [ ! -d "$dir2/uniq_reads_count/" ]; then
 	echo
 	echo
-	echo "[ $(date) ] filter reads -- extract high abundance reads"
+	echo "[ `date` ] filter reads -- extract high abundance reads"
 	echo '-----------------------------------------------'
 	mkdir -p $dir2/uniq_reads_count
 	myvar=0
@@ -427,7 +427,7 @@ if [ ! -d "$dir2/uniq_reads_count/" ]; then
 	done
 	wait
 	rm $dir2/uniq_reads_count/*.temp
-	echo "[ $(date) ] Run complete"
+	echo "[ `date` ] Run complete"
 	echo '-----------------------------------------------'
 fi
 
@@ -436,12 +436,12 @@ fi
 ###### Switch ######
 if [ $flag == 1 ]; then
 	echo '-----------------------------------------------'
-	echo "[ $(date) ] Aligment Run complete. END THE PIPELINE"
+	echo "[ `date` ] Aligment Run complete. END THE PIPELINE"
 	echo '-----------------------------------------------'
 	exit
 else
 	echo '-----------------------------------------------'
-	echo "[ $(date) ] Aligment Run complete. Continue the PIPELINE for Annotation and Visualization"
+	echo "[ `date` ] Aligment Run complete. Continue the PIPELINE for Annotation and Visualization"
 	echo '-----------------------------------------------'
 fi
 
@@ -454,7 +454,7 @@ fi
 if [ ! -d "$dir3/Annotation-all.reads" ]; then
 	echo
 	echo
-	echo "[ $(date) ] Annotating sRNA reads"
+	echo "[ `date` ] Annotating sRNA reads"
 	echo '-----------------------------------------------'
 	mkdir -p $dir3/Annotation-all.reads
 
@@ -487,14 +487,14 @@ if [ ! -d "$dir3/Annotation-all.reads" ]; then
 		fi
 	done
 
-	echo "[ $(date) ] Run complete"
+	echo "[ `date` ] Run complete"
 	echo '-----------------------------------------------'
 fi
 
 if [ ! -d "$dir3/Annotation-pri-miRNA" ]; then
 	echo
 	echo
-	echo "[ $(date) ] Annotating miRNA reads"
+	echo "[ `date` ] Annotating miRNA reads"
 	echo '-----------------------------------------------'
 	mkdir -p $dir3/Annotation-pri-miRNA
 	echo "featureCounts -O -M --largestOverlap -t miRNA_primary_transcript -g Name -T $thread -a ${ath[miRNA_annotation]} -o $dir3/Annotation-pri-miRNA/miRNA.hairpin.annotation"
@@ -509,7 +509,7 @@ if [ ! -d "$dir3/Annotation-pri-miRNA" ]; then
 	sed -i "s%$dir2/ShortStack/%%g ; s%_trimmed.bam%%g" $dir3/Annotation-pri-miRNA/miRNA.re.annotation
 
 	python3 $scriptDir/module/combine_sRNA_by_id_from_featureCounts.py -i $dir3/Annotation-pri-miRNA/miRNA.re.annotation -f /bios-store1/chenyc/Reference_Source/Arabidopsis_Reference/ath_mature_bowtie_index/PNAS_miRNA_ver.211213.fa -o $dir3/Annotation-pri-miRNA/miRNA.re.combine
-	echo "[ $(date) ] Run complete"
+	echo "[ `date` ] Run complete"
 	echo '-----------------------------------------------'
 fi
 
@@ -519,7 +519,7 @@ if [ ! -d "$dir3/Annotation-type_len_dis/" ]; then
 	echo '-----------------------------------------------'
 	mkdir -p $dir3/Annotation-type_len_dis
 	python3 $scriptDir/module/calc_feature_count_by_featureCounts_tags.py -i $dir3/Annotation-all.reads/ -o $dir3/Annotation-type_len_dis/
-	echo "[ $(date) ] Run complete"
+	echo "[ `date` ] Run complete"
 	echo '-----------------------------------------------'
 fi
 
@@ -531,7 +531,7 @@ fi
 if [ ! -d "$dir4/deeptools_bam2bw/" ]; then
 	echo
 	echo
-	echo "[ $(date) ] Converting BAM to bigweg for igv"
+	echo "[ `date` ] Converting BAM to bigweg for igv"
 	echo '-----------------------------------------------'
 	mkdir -p $dir4/deeptools_bam2bw
 	myvar=0
@@ -558,29 +558,29 @@ if [ ! -d "$dir4/deeptools_bam2bw/" ]; then
 		fi
 	done
 	wait
-	echo "[ $(date) ] Run complete"
+	echo "[ `date` ] Run complete"
 	echo '-----------------------------------------------'
 fi
 
 if [ ! -d "$dir4/deeptools_plot/" ]; then
 	echo
 	echo
-	echo "[ $(date) ] Data QC visualization"
+	echo "[ `date` ] Data QC visualization"
 	echo '-----------------------------------------------'
 	mkdir -p $dir4/deeptools_plot
-	echo "[ $(date) ] multiBamSummary bins --binSize 100"
+	echo "[ `date` ] multiBamSummary bins --binSize 100"
 	multiBamSummary bins --bamfiles $dir2/ShortStack/*_trimmed.bam \
 		--minMappingQuality 20 --smartLabels --binSize 100 --numberOfProcessors max \
 		-o $dir4/deeptools_plot/readCounts.npz --outRawCounts $dir4/deeptools_plot/readCounts.tab
-	echo "[ $(date) ] plotCorrelation --corMethod spearman --whatToPlot scatterplot"
+	echo "[ `date` ] plotCorrelation --corMethod spearman --whatToPlot scatterplot"
 	plotCorrelation -in $dir4/deeptools_plot/readCounts.npz --corMethod spearman --skipZeros --plotTitle "Spearman Correlation of Read Counts" --whatToPlot scatterplot -o $dir4/deeptools_plot/scatterplot_SpearmanCorr.png --outFileCorMatrix $dir4/deeptools_plot/scatterplot_SpearmanCorr.tab
-	echo "[ $(date) ] plotCorrelation --corMethod spearman --whatToPlot heatmap"
+	echo "[ `date` ] plotCorrelation --corMethod spearman --whatToPlot heatmap"
 	plotCorrelation -in $dir4/deeptools_plot/readCounts.npz --corMethod spearman --skipZeros --plotTitle "Spearman Correlation of Read Counts" --whatToPlot heatmap -o $dir4/deeptools_plot/heatmap_SpearmanCorr.png --outFileCorMatrix $dir4/deeptools_plot/heatmap_SpearmanCorr.tab --colorMap RdYlBu --plotNumbers
-	echo "[ $(date) ] plotCorrelation --corMethod pearson --whatToPlot scatterplot"
+	echo "[ `date` ] plotCorrelation --corMethod pearson --whatToPlot scatterplot"
 	plotCorrelation -in $dir4/deeptools_plot/readCounts.npz --corMethod pearson --skipZeros --plotTitle "Pearson Correlation of Read Counts" --whatToPlot scatterplot -o $dir4/deeptools_plot/scatterplot_pearsonCorr.png --outFileCorMatrix $dir4/deeptools_plot/scatterplot_pearsonCorr.tab
-	echo "[ $(date) ] plotCorrelation --corMethod pearson --whatToPlot heatmap"
+	echo "[ `date` ] plotCorrelation --corMethod pearson --whatToPlot heatmap"
 	plotCorrelation -in $dir4/deeptools_plot/readCounts.npz --corMethod pearson --skipZeros --plotTitle "Pearson Correlation of Read Counts" --whatToPlot heatmap -o $dir4/deeptools_plot/heatmap_pearsonCorr.png --outFileCorMatrix $dir4/deeptools_plot/heatmap_pearsonCorr.tab --colorMap RdYlBu --plotNumbers
-	echo "[ $(date) ] Run complete"
+	echo "[ `date` ] Run complete"
 	echo '-----------------------------------------------'
 fi
 
