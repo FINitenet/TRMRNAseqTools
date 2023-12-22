@@ -37,8 +37,8 @@ Basic Informations:
 
     hostname: $(hostname)
     script: $0
-    Version: V1.0.0.20230313_Beta
-    Last update: 2023-03-13
+    Version: V1.0.0.20231213_Beta
+    Last update: 2023-12-13
 
 Settings:
 
@@ -71,7 +71,7 @@ fi
 
 ###  get input  ###
 
-ARGS=$(getopt -o p:i:o:g:b:n:m:f:h -l thread:,input:,output:,genome:,batch:,min_length:,max_length:,help,align_only -n "$0" -- "$@")
+ARGS=$(getopt -o p:i:o:g:b:n:m:f:a:h -l thread:,input:,output:,genome:,batch:,min_length:,max_length:,help,align_only,adapter -n "$0" -- "$@")
 if [ $? -eq 0 ]; then
 	eval set -- "${ARGS}"
 else
@@ -141,6 +141,10 @@ while true; do
 		flag=1
 		shift
 		;;
+	-a | --adapter)
+		adapter=$2
+		shift 2
+		;;
 	--)
 		shift
 		break
@@ -196,8 +200,13 @@ if [ ! -d "$dir1/trim_adapter/" ]; then
 	mkdir -p $dir1/trim_adapter
 	myvar=0
 	for i in ${list}; do
-		echo "trim_galore -q 20 --length 10 --trim-n --basename ${i}"
-		trim_galore -j 8 -q 20 --basename "$i" --length 10 --consider_already_trimmed 10 --trim-n --fastqc --fastqc_args "-t 16 --nogroup" --gzip $input/"$i"*.$tag -o $dir1/trim_adapter/ &
+		if [ -z $adapter ]; then
+			echo "trim_galore -q 20 --length 10 --trim-n --basename ${i}"
+			trim_galore -j 8 -q 20 --basename "$i" --length 10 --consider_already_trimmed 10 --trim-n --fastqc --fastqc_args "-t 16 --nogroup" --gzip $input/"$i"*.$tag -o $dir1/trim_adapter/ &
+		else
+			echo "trim_galore -q 20 --length 10 --trim-n -a ${adapter} --basename ${i}"
+			trim_galore -j 8 -q 20 --basename "$i" --length 10 --consider_already_trimmed 10 -a $adapter --trim-n --fastqc --fastqc_args "-t 16 --nogroup" --gzip $input/"$i"*.$tag -o $dir1/trim_adapter/ &
+		fi
 		myvar=$(($myvar + 1))
 		if [ "$myvar" = "6" ]; then
 			myvar=0
@@ -322,7 +331,7 @@ if [ ! -d "$dir2/map2mirna/" ]; then
 	for i in ${list}; do
 		echo "bowtie mapping to grouped miRNA ${i}"
 		bowtie -p $thread -v 0 --no-unal --best --strata -a -m 50 \
-			-x ${ath[miRNA_bowtie_index]} $dir2/cleandata/"$i"_aligned.fastq.gz \
+			-x ${ath[hairpin_bowtie_index]} $dir2/cleandata/"$i"_aligned.fastq.gz \
 			-S $dir2/map2mirna/"$i".aligned.sam --al $dir2/map2mirna/"$i"_aligned.fastq >$dir2/map2mirna/"$i".mapresults.txt 2>&1 && pigz -p 8 $dir2/map2mirna/"$i"_aligned.fastq &
 		myvar=$(($myvar + 1))
 		if [ "$myvar" = "3" ]; then
