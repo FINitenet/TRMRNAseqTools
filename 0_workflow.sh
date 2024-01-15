@@ -56,6 +56,7 @@ EOF
 ###  default parameters  ###
 min=18
 max=28
+adapter=''
 output=./out
 scriptDir=$(dirname $0)
 min_thread=1
@@ -137,13 +138,13 @@ while true; do
 		tag=$2
 		shift 2
 		;;
+	-a | --adapter)
+	adapter=$2
+	shift 2
+		;;
 	--align_only)
 		flag=1
 		shift
-		;;
-	-a | --adapter)
-		adapter=$2
-		shift 2
 		;;
 	--)
 		shift
@@ -185,7 +186,7 @@ if [ ! -d "$dir1/rawdata_qc/" ]; then
 	echo "[ `date` ] rawdata QC"
 	echo '-----------------------------------------------'
 	mkdir -p $dir1/rawdata_qc
-	fastqc -t 16 --nogroup -o $dir1/rawdata_qc $input/*.$tag
+	fastqc -t 24 --nogroup -o $dir1/rawdata_qc $input/*.$tag
 	multiqc $dir1/rawdata_qc -o $dir1/rawdata_qc/multiqc_result/ -n rawdata_QC
 	echo "[ `date` ] Run complete"
 	echo '-----------------------------------------------'
