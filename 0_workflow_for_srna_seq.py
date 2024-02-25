@@ -127,7 +127,7 @@ if __name__ == "__main__":
         # step3: mapping
         if not os.path.exists(mapping_path):
             os.mkdir(mapping_path)
-        genomeindex = "/bios-store1/chenyc/Reference_Source/Arabidopsis_Reference/ath_chr_bowtie_index/Arabidopsis_thaliana.TAIR10.dna.toplevel"
+        genomeindex = "/bios-store1/chenyc/Project/multispecies/physcomitrium_patens/0_genome/dna_index/Physcomitrium_patens.Phypa_V3.dna.toplevel"
         data_mapping()
 
         # step4: data length distribution

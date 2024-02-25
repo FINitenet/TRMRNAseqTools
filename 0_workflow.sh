@@ -258,7 +258,7 @@ if [ ! -d "$dir2/map2genome/" ]; then
 	myvar=0
 	for i in ${list}; do
 		echo "bowtie map2genome ${i}"
-		bowtie -p $thread -v 0 --no-unal --best --strata -a \
+		bowtie -p $thread -v 0 --no-unal --best --strata -a -m 50 \
 			-x ${ath[genome_bowtie_index]} $dir1/trim_adapter/"$i"_trimmed.fq.gz \
 			-S $dir2/map2genome/"$i"_aligned.sam --al $dir2/map2genome/"$i"_aligned.fastq --un $dir2/map2genome/"$i"_unaligned.fastq >$dir2/map2genome/"$i".mapresults.txt 2>&1 &
 		myvar=$(($myvar + 1))
@@ -283,7 +283,7 @@ if [ ! -d "$dir2/map2trsnoRNA/" ]; then
 	myvar=0
 	for i in ${list}; do
 		echo "bowtie map2trsnoRNA ${i}"
-		bowtie -p $thread -v 0 --no-unal --best --strata -a -x ${ath[trsno_bowtie_index]} $dir2/map2genome/"$i"_aligned.fastq \
+		bowtie -p $thread -v 0 --no-unal --best --strata -a -m 50 -x ${ath[trsno_bowtie_index]} $dir2/map2genome/"$i"_aligned.fastq \
 			-S $dir2/map2trsnoRNA/"$i".trsno.sam \
 			--un $dir2/map2trsnoRNA/"$i"_unaligned.fastq >$dir2/map2trsnoRNA/"$i".mapresults.txt 2>&1 &
 		myvar=$(($myvar + 1))
@@ -386,19 +386,9 @@ if [ ! -d "$dir2/genome_len_dist/" ]; then
 	echo "[ `date` ] Analysis reads length distribution"
 	echo '-----------------------------------------------'
 	mkdir -p $dir2/genome_len_dist
-	myvar=0
-	for i in ${list}; do
-		echo "length_distribution ${i}"
-		python3 $scriptDir/module/size_dist.py $dir2/map2genome/"$i"_aligned.fastq >$dir2/genome_len_dist/"$i"_len_dist.txt && pigz -p 8 $dir2/map2genome/"$i"_aligned.fastq && sed -i "s%$dir2/map2genome/%%g ; s%_aligned.fastq%%g" $dir2/genome_len_dist/"$i"_len_dist.txt &
-		myvar=$(($myvar + 1))
-		if [ "$myvar" = "6" ]; then
-			myvar=0
-			wait
-		fi
-	done
-	wait
+	python3 $scriptDir/module/size_dist.py $dir2/map2genome/*_aligned.fastq >$dir2/genome_len_dist/map2genome_len_dist.txt && pigz -p 8 $dir2/map2genome/*_aligned.fastq && sed -i "s%$dir2/map2genome/%%g ; s%_aligned.fastq%%g" $dir2/genome_len_dist/map2genome_len_dist.txt
+	python3 $scriptDir/module/size_dist.py $dir2/map2mirna/*.bam >$dir2/genome_len_dist/map2mirna_len_dist.txt && sed -i "s%$dir2/map2mirna/%%g ; s%.aligned.bam%%g" $dir2/genome_len_dist/map2mirna_len_dist.txt
 
-	cat $dir2/genome_len_dist/*_len_dist.txt >$dir2/genome_len_dist/len_dist_summary
 	echo "[ `date` ] Run complete"
 	echo '-----------------------------------------------'
 fi
@@ -459,7 +449,7 @@ fi
 
 ###### PART3 Quant ######
 #annotation
-#featureCounts v2.0.1
+#featureCounts >= v2.0.1
 
 if [ ! -d "$dir3/Annotation-all.reads" ]; then
 	echo
@@ -482,11 +472,6 @@ if [ ! -d "$dir3/Annotation-all.reads" ]; then
 
 	grep 'Unassigned_NoFeatures' $dir3/Annotation-all.reads/all.type.annotation.summary | awk '{OFS="\t";gsub("Unassigned_NoFeatures","NoFeatures",$1);print $0}' >>$dir3/Annotation-all.reads/summary.txt
 
-	#       awk '{for(i=2;i<=NF;i++)a[i]+=$i;print}END{OFS="\t";printf "part\t";for(j=2;j<=NF;j++)printf "%.2f\t", a[j]; print""}' $output/Annotation-all.reads/summary.txt | grep '^Geneid\|^part' > $output/Annotation-all.reads/others.txt
-
-	#       awk '{for(i=2;i<=NF;i++)a[i]+=$i;print}END{OFS="\t";printf "total\t";for(j=2;j<=NF;j++)printf "%.2f\t", a[j]; print""}' $output/Annotation-all.reads/all.type.annotation.summary |  grep '^total' >>  $output/Annotation-all.reads/others.txt
-
-	#       awk -F'\t' 'BEGIN{printf "others\t"} NR == 2{ for (i = 2; i < NF; i++) hash[i] = $i;}NR > 2{ for (i = 2; i < NF; i++){printf("%.2f\t", $i - hash[i]);hash[i] = $i;}printf("\n");}' $output/Annotation-all.reads/others.txt >> $output/Annotation-all.reads/summary.txt
 	myvar=0
 	for i in ${list}; do
 		samtools index -@ $thread $dir3/Annotation-all.reads/"$i"_trimmed.bam.featureCounts.bam &
@@ -538,6 +523,10 @@ fi
 ###### PART4 VIS ######
 #Data visualization
 
+echo "[ `date` ] Converting SAM to BAM"
+python3 $scriptDir/module/convert_sam2bam.py $dir2
+echo "[ `date` ] Run complete"
+
 if [ ! -d "$dir4/deeptools_bam2bw/" ]; then
 	echo
 	echo
@@ -546,21 +535,12 @@ if [ ! -d "$dir4/deeptools_bam2bw/" ]; then
 	mkdir -p $dir4/deeptools_bam2bw
 	myvar=0
 	for i in ${list}; do
-		echo "samtools index -@ $thread $dir2/ShortStack/"$i"_trimmed.bam"
-		samtools index -@ $thread $dir2/ShortStack/"$i"_trimmed.bam &
-		myvar=$(($myvar + 1))
-		if [ "$myvar" = "6" ]; then
-			myvar=0
-			wait
-		fi
-	done
-	wait
-	myvar=0
-	for i in ${list}; do
 		echo "bamCoverage -b $dir2/ShortStack/"$i"_trimmed.bam --filterRNAstrand forward --binSize 1 --normalizeUsing CPM -o $dir4/deeptools_bam2bw/"$i"_aligned.R.bw"
-		bamCoverage --numberOfProcessors max/2 -b $dir2/ShortStack/"$i"_trimmed.bam --filterRNAstrand forward --binSize 1 --normalizeUsing CPM -o $dir4/deeptools_bam2bw/"$i"_aligned.R.bw &
+		# bamCoverage --numberOfProcessors max/2 -b $dir2/ShortStack/"$i"_trimmed.bam --filterRNAstrand forward --binSize 1 --normalizeUsing CPM -o $dir4/deeptools_bam2bw/"$i"_aligned.R.bw &
+		bamCoverage --numberOfProcessors max/2 -b $dir2/map2genome/"$i"_aligned.bam --filterRNAstrand forward --binSize 1 --normalizeUsing CPM -o $dir4/deeptools_bam2bw/"$i"_aligned.R.bw &
 		echo "bamCoverage -b $dir2/ShortStack/"$i"_trimmed.bam --filterRNAstrand reverse --binSize 1 --normalizeUsing CPM -o $dir4/deeptools_bam2bw/"$i"_aligned.F.bw"
-		bamCoverage --numberOfProcessors max/2 -b $dir2/ShortStack/"$i"_trimmed.bam --filterRNAstrand reverse --binSize 1 --normalizeUsing CPM -o $dir4/deeptools_bam2bw/"$i"_aligned.F.bw &
+		# bamCoverage --numberOfProcessors max/2 -b $dir2/ShortStack/"$i"_trimmed.bam --filterRNAstrand reverse --binSize 1 --normalizeUsing CPM -o $dir4/deeptools_bam2bw/"$i"_aligned.F.bw &
+		bamCoverage --numberOfProcessors max/2 -b $dir2/map2genome/"$i"_aligned.bam --filterRNAstrand reverse --binSize 1 --normalizeUsing CPM -o $dir4/deeptools_bam2bw/"$i"_aligned.F.bw &
 		myvar=$(($myvar + 1))
 		if [ "$myvar" = "6" ]; then
 			myvar=0
@@ -579,7 +559,8 @@ if [ ! -d "$dir4/deeptools_plot/" ]; then
 	echo '-----------------------------------------------'
 	mkdir -p $dir4/deeptools_plot
 	echo "[ `date` ] multiBamSummary bins --binSize 100"
-	multiBamSummary bins --bamfiles $dir2/ShortStack/*_trimmed.bam \
+	# multiBamSummary bins --bamfiles $dir2/ShortStack/*_trimmed.bam \
+	multiBamSummary bins --bamfiles $dir2/map2genome/*_aligned.bam \
 		--minMappingQuality 20 --smartLabels --binSize 100 --numberOfProcessors max \
 		-o $dir4/deeptools_plot/readCounts.npz --outRawCounts $dir4/deeptools_plot/readCounts.tab
 	echo "[ `date` ] plotCorrelation --corMethod spearman --whatToPlot scatterplot"
