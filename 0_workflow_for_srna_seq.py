@@ -35,7 +35,8 @@ def data_trim(ADAPTER, TRIM_FLAG, TRIM_PATH, fastq_file):
                 "--trim-n", "--suppress_warn", "-j", "12", "-o", TRIM_PATH, fastq_file]
     elif ADAPTER == None and TRIM_FLAG == 2:
         trim_cmd = ["trim_galore", "--fastqc", 
-                "--gzip", "--length", "10", "--consider_already_trimmed", "10",
+                "--length", "18", "--max_length", "28", 
+                "--gzip", "--consider_already_trimmed", "10",
                 "--trim-n", "--suppress_warn", "-j", "12", "-o", TRIM_PATH, fastq_file]
     elif ADAPTER == None and TRIM_FLAG == 3:
         adapter_search = subprocess.run(["/bios-store1/chenyc/scripts/Github_scripts/DNApi/dnapi.py", fastq_file], check=True, stdout=subprocess.PIPE, text=True)
@@ -134,7 +135,7 @@ def convert_bam2bigwig(MAPPING_PATH, BW_PATH):
     os.remove(samfile)
 
     bw_cmd = [
-    "ShortTracks",
+    "/home/chenyc/anaconda3/envs/ShortStack4/bin/ShortTracks",
     "--bamfile", bamfile,
     "--mode", "readlength",
     "--stranded"
@@ -176,7 +177,7 @@ parser.add_argument("-g", "--genome_index", type= str, default= "/bios-store1/ch
 parser.add_argument("-a", "--adapter", type= str, default= None)
 parser.add_argument("-t", "--trim_flag", type= int, default= 3)
 parser.add_argument("-u", "--umi_flag", type= bool, default= True)
-parser.add_argument("-s", "--suffix", type= str, default= "R1_001.fastq.gz")
+parser.add_argument("-s", "--suffix", type= str, default= ".fastq.gz")
 
 
 args = parser.parse_args()
@@ -189,7 +190,7 @@ if __name__ == "__main__":
     DOC_PATH = args.outdir
 
     TRIM_FLAG = 3
-    UMI_FLAG = True
+    UMI_FLAG = args.umi_flag
     ADAPTER = None
     suffix = args.suffix
 
