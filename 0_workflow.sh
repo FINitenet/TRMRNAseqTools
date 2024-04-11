@@ -400,33 +400,9 @@ if [ ! -d "$dir2/uniq_reads_count/" ]; then
 	echo "[ `date` ] filter reads -- extract high abundance reads"
 	echo '-----------------------------------------------'
 	mkdir -p $dir2/uniq_reads_count
-	myvar=0
-	for i in ${list}; do
-		echo "fastx_collapser -v -i $dir2/map2genome/${i}_aligned.fastq.gz -o $dir2/uniq_reads_count/${i}.sort.fasta"
-		zcat $dir2/map2genome/"$i"_aligned.fastq.gz | fastx_collapser -v -o $dir2/uniq_reads_count/"$i".sort.fasta &
-		myvar=$(($myvar + 1))
-		if [ "$myvar" = "6" ]; then
-			myvar=0
-			wait
-		fi
-	done
-	wait
-	echo '-----------------------------------------------'
-	myvar=0
-	for i in ${list}; do
-		echo "Converting ${i}.sort.fasta to oneline.fasta"
-		sed -n '1{x;d;x};${H;x;s/\n/ /1;s/\n//g;p;b};/^>/{x;s/\n/ /1;s/\n//g;p;b};H' $dir2/uniq_reads_count/"$i".sort.fasta | cut -f 2 -d"-" >$dir2/uniq_reads_count/"$i".temp
-		awk '{OFS="\t";print $2,$1}' $dir2/uniq_reads_count/"$i".temp >$dir2/uniq_reads_count/"$i".uniqseq.count.txt
+	
+	python3 $scriptDir/module/TRMRNA_extract_high_abundance_sequence.py -i $dir2/map2genome/ -o $dir2/uniq_reads_count/ -n $min -m $max 
 
-		echo "Split fasta to $min-$max nt"
-		for ((a = $min; a < $max + 1; a++)); do awk -v len=$a '{if(length($2)==len) print $2"\t"$1"\t"len}' $dir2/uniq_reads_count/"$i".temp | awk '{if(NR<101) print}' >$dir2/uniq_reads_count/${i}_${a}.temp; done
-
-		echo "Merge table and named "$i".merge.txt"
-		cat $dir2/uniq_reads_count/${i}_* >$dir2/uniq_reads_count/${i}.top100.${min}-${max}.txt
-
-	done
-	wait
-	rm $dir2/uniq_reads_count/*.temp
 	echo "[ `date` ] Run complete"
 	echo '-----------------------------------------------'
 fi
