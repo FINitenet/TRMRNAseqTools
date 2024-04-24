@@ -37,8 +37,8 @@ Basic Informations:
 
     hostname: $(hostname)
     script: $0
-    Version: V1.0.0.20231213_Beta
-    Last update: 2023-12-13
+    Version: V1.0.0.20240411_Beta
+    Last update: 2024-04-11
 
 Settings:
 
@@ -322,7 +322,7 @@ if [ ! -d "$dir2/cleandata/" ]; then
 	echo '-----------------------------------------------'
 fi
 
-if [ ! -d "$dir2/map2mirna/" ]; then
+if [ ! -d "$dir2/map2mirna_hp/" ]; then
 	echo
 	echo
 	echo "[ `date` ] filter reads -- mapping to grouped miRNA"
@@ -462,27 +462,27 @@ if [ ! -d "$dir3/Annotation-all.reads" ]; then
 	echo '-----------------------------------------------'
 fi
 
-if [ ! -d "$dir3/Annotation-pri-miRNA" ]; then
-	echo
-	echo
-	echo "[ `date` ] Annotating miRNA reads"
-	echo '-----------------------------------------------'
-	mkdir -p $dir3/Annotation-pri-miRNA
-	echo "featureCounts -O -M --largestOverlap -t miRNA_primary_transcript -g Name -T $thread -a ${ath[miRNA_annotation]} -o $dir3/Annotation-pri-miRNA/miRNA.hairpin.annotation"
-	featureCounts -O -M --largestOverlap -t miRNA_primary_transcript -g Name -T $thread -a ${ath[miRNA_annotation]} -o $dir3/Annotation-pri-miRNA/miRNA.hairpin.annotation $dir2/ShortStack/*.bam >$dir3/Annotation-pri-miRNA/hairpin.log 2>&1
-	echo "featureCounts -O -M --largestOverlap -t miRNA -g Name -T $thread -a ${ath[miRNA_annotation]} -o $dir3/Annotation-pri-miRNA/miRNA.mature.annotation"
-	featureCounts -O -M --largestOverlap -t miRNA -g Name -T $thread -a ${ath[miRNA_annotation]} -o $dir3/Annotation-pri-miRNA/miRNA.mature.annotation $dir2/ShortStack/*.bam >$dir3/Annotation-pri-miRNA/mature.log 2>&1
-	echo "featureCounts -O -M --largestOverlap -t miRNA -g Name -T $thread -R BAM -a ${ath[miRNA_re-annotation]} -o $dir3/Annotation-pri-miRNA/miRNA.re.annotation"
-	featureCounts -O -M --largestOverlap -t miRNA -g Name -T $thread -R BAM -a ${ath[miRNA_re-annotation]} -o $dir3/Annotation-pri-miRNA/miRNA.re.annotation $dir2/ShortStack/*.bam >$dir3/Annotation-pri-miRNA/re.log 2>&1
+# if [ ! -d "$dir3/Annotation-pri-miRNA" ]; then
+# 	echo
+# 	echo
+# 	echo "[ `date` ] Annotating miRNA reads"
+# 	echo '-----------------------------------------------'
+# 	mkdir -p $dir3/Annotation-pri-miRNA
+# 	echo "featureCounts -O -M --largestOverlap -t miRNA_primary_transcript -g Name -T $thread -a ${ath[miRNA_annotation]} -o $dir3/Annotation-pri-miRNA/miRNA.hairpin.annotation"
+# 	featureCounts -O -M --largestOverlap -t miRNA_primary_transcript -g Name -T $thread -a ${ath[miRNA_annotation]} -o $dir3/Annotation-pri-miRNA/miRNA.hairpin.annotation $dir2/ShortStack/*.bam >$dir3/Annotation-pri-miRNA/hairpin.log 2>&1
+# 	echo "featureCounts -O -M --largestOverlap -t miRNA -g Name -T $thread -a ${ath[miRNA_annotation]} -o $dir3/Annotation-pri-miRNA/miRNA.mature.annotation"
+# 	featureCounts -O -M --largestOverlap -t miRNA -g Name -T $thread -a ${ath[miRNA_annotation]} -o $dir3/Annotation-pri-miRNA/miRNA.mature.annotation $dir2/ShortStack/*.bam >$dir3/Annotation-pri-miRNA/mature.log 2>&1
+# 	echo "featureCounts -O -M --largestOverlap -t miRNA -g Name -T $thread -R BAM -a ${ath[miRNA_re-annotation]} -o $dir3/Annotation-pri-miRNA/miRNA.re.annotation"
+# 	featureCounts -O -M --largestOverlap -t miRNA -g Name -T $thread -R BAM -a ${ath[miRNA_re-annotation]} -o $dir3/Annotation-pri-miRNA/miRNA.re.annotation $dir2/ShortStack/*.bam >$dir3/Annotation-pri-miRNA/re.log 2>&1
 
-	sed -i "s%$dir2/ShortStack/%%g ; s%_trimmed.bam%%g" $dir3/Annotation-pri-miRNA/miRNA.mature.annotation
-	sed -i "s%$dir2/ShortStack/%%g ; s%_trimmed.bam%%g" $dir3/Annotation-pri-miRNA/miRNA.hairpin.annotation
-	sed -i "s%$dir2/ShortStack/%%g ; s%_trimmed.bam%%g" $dir3/Annotation-pri-miRNA/miRNA.re.annotation
+# 	sed -i "s%$dir2/ShortStack/%%g ; s%_trimmed.bam%%g" $dir3/Annotation-pri-miRNA/miRNA.mature.annotation
+# 	sed -i "s%$dir2/ShortStack/%%g ; s%_trimmed.bam%%g" $dir3/Annotation-pri-miRNA/miRNA.hairpin.annotation
+# 	sed -i "s%$dir2/ShortStack/%%g ; s%_trimmed.bam%%g" $dir3/Annotation-pri-miRNA/miRNA.re.annotation
 
-	python3 $scriptDir/module/combine_sRNA_by_id_from_featureCounts.py -i $dir3/Annotation-pri-miRNA/miRNA.re.annotation -f /bios-store1/chenyc/Reference_Source/Arabidopsis_Reference/ath_mature_bowtie_index/PNAS_miRNA_ver.211213.fa -o $dir3/Annotation-pri-miRNA/miRNA.re.combine
-	echo "[ `date` ] Run complete"
-	echo '-----------------------------------------------'
-fi
+# 	python3 $scriptDir/module/combine_sRNA_by_id_from_featureCounts.py -i $dir3/Annotation-pri-miRNA/miRNA.re.annotation -f /bios-store1/chenyc/Reference_Source/Arabidopsis_Reference/ath_mature_bowtie_index/PNAS_miRNA_ver.211213.fa -o $dir3/Annotation-pri-miRNA/miRNA.re.combine
+# 	echo "[ `date` ] Run complete"
+# 	echo '-----------------------------------------------'
+# fi
 
 if [ ! -d "$dir3/Annotation-type_len_dis/" ]; then
 	echo
