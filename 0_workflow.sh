@@ -187,7 +187,6 @@ if [ ! -d "$dir1/rawdata_qc/" ]; then
 	echo '-----------------------------------------------'
 	mkdir -p $dir1/rawdata_qc
 	fastqc -t 24 --nogroup -o $dir1/rawdata_qc $input/*.$tag
-	multiqc $dir1/rawdata_qc -o $dir1/rawdata_qc/multiqc_result/ -n rawdata_QC
 	echo "[ `date` ] Run complete"
 	echo '-----------------------------------------------'
 fi
@@ -206,7 +205,7 @@ if [ ! -d "$dir1/trim_adapter/" ]; then
 			trim_galore -j 8 -q 20 --basename "$i" --length 10 --consider_already_trimmed 10 --trim-n --fastqc --fastqc_args "-t 16 --nogroup" --gzip $input/"$i"*.$tag -o $dir1/trim_adapter/ &
 		else
 			echo "trim_galore -q 20 --length 10 --trim-n -a ${adapter} --basename ${i}"
-			trim_galore -j 8 -q 20 --basename "$i" --length 10 --consider_already_trimmed 10 -a $adapter --trim-n --fastqc --fastqc_args "-t 16 --nogroup" --gzip $input/"$i"*.$tag -o $dir1/trim_adapter/ &
+			trim_galore -j 8 -q 20 --basename "$i" --length 10 --max_length 50 --consider_already_trimmed 10 -a $adapter --trim-n --fastqc --fastqc_args "-t 16 --nogroup" --gzip $input/"$i"*.$tag -o $dir1/trim_adapter/ &
 		fi
 		myvar=$(($myvar + 1))
 		if [ "$myvar" = "6" ]; then
@@ -269,7 +268,7 @@ if [ ! -d "$dir2/map2genome/" ]; then
 	done
 	wait
 
-	fastqc -t 16 $dir2/map2genome/*_aligned.fastq && multiqc $dir2/map2genome/ -o $dir2/map2genome/multiqc_result -n map2genome_QC
+	fastqc -t 16 $dir2/map2genome/*_aligned.fastq 
 	echo "[ `date` ] Run complete"
 	echo '-----------------------------------------------'
 fi
@@ -317,7 +316,7 @@ if [ ! -d "$dir2/cleandata/" ]; then
 	done
 	wait
 
-	fastqc -t 16 $dir2/cleandata/*_aligned.fastq.gz && multiqc $dir2/cleandata/ -o $dir2/cleandata/multiqc_result -n cleandata_QC
+	fastqc -t 16 $dir2/cleandata/*_aligned.fastq.gz
 	echo "[ `date` ] Run complete"
 	echo '-----------------------------------------------'
 fi
@@ -356,7 +355,7 @@ if [ ! -d "$dir2/ShortStack/" ]; then
 	myvar=0
 	for i in ${list}; do
 		echo "${i} aligned to the genome using ShortStack"
-		ShortStack --genomefile ${ath[genomefile]} --outdir $dir2/ShortStack/"$i"_ShortStack --align_only --nohp --keep_quals \
+		/bios-store1/chenyc/scripts/Github_scripts/ShortStack3/ShortStack --genomefile ${ath[genomefile]} --outdir $dir2/ShortStack/"$i"_ShortStack --align_only --nohp --keep_quals \
 			--mmap u --bowtie_m 1000 --ranmax 50 --mismatches 0 \
 			--bowtie_cores $thread --readfile $dir1/$min-$max/"$i"_trimmed.fq.gz && mv $dir2/ShortStack/"$i"_ShortStack/Log.txt $dir2/ShortStack/"$i".log &
 		myvar=$(($myvar + 1))
@@ -376,6 +375,7 @@ fi
 echo "[ `date` ] Summary mapping results"
 echo '-----------------------------------------------'
 python3 $scriptDir/module/mapping_results_summary.py -i $dir2 -o $dir2
+multiqc --filename QC --outdir $dir1 --dirs $output --data-format tsv --pdf --export --force 
 echo "[ `date` ] Run complete"
 echo '-----------------------------------------------'
 
@@ -386,8 +386,8 @@ if [ ! -d "$dir2/genome_len_dist/" ]; then
 	echo "[ `date` ] Analysis reads length distribution"
 	echo '-----------------------------------------------'
 	mkdir -p $dir2/genome_len_dist
-	python3 $scriptDir/module/size_dist.py $dir2/map2genome/*_aligned.fastq >$dir2/genome_len_dist/map2genome_len_dist.txt && pigz -p 8 $dir2/map2genome/*_aligned.fastq && sed -i "s%$dir2/map2genome/%%g ; s%_aligned.fastq%%g" $dir2/genome_len_dist/map2genome_len_dist.txt
-	python3 $scriptDir/module/size_dist.py $dir2/map2mirna/*.bam >$dir2/genome_len_dist/map2mirna_len_dist.txt && sed -i "s%$dir2/map2mirna/%%g ; s%.aligned.bam%%g" $dir2/genome_len_dist/map2mirna_len_dist.txt
+	python3 $scriptDir/module/size_dist.py $dir2/map2genome/*_aligned.fastq >$dir2/genome_len_dist/map2genome_len_dist.txt && pigz -p 8 $dir2/map2genome/*_aligned.fastq && sed -i "s%$dir2/map2genome/%%g ; s%_aligned%%g" $dir2/genome_len_dist/map2genome_len_dist.txt
+	python3 $scriptDir/module/size_dist.py $dir2/map2mirna/*.sam >$dir2/genome_len_dist/map2mirna_len_dist.txt && sed -i "s%$dir2/map2mirna/%%g ; s%.aligned%%g" $dir2/genome_len_dist/map2mirna_len_dist.txt
 
 	echo "[ `date` ] Run complete"
 	echo '-----------------------------------------------'
@@ -433,20 +433,10 @@ if [ ! -d "$dir3/Annotation-all.reads" ]; then
 	echo "[ `date` ] Annotating sRNA reads"
 	echo '-----------------------------------------------'
 	mkdir -p $dir3/Annotation-all.reads
-
-	echo "featureCounts -M -O --largestOverlap --fraction -t gene,ncRNA_gene -g biotype -T $thread -R BAM -a ${ath[all_type_annotation]} -o $dir3/Annotation-all.reads/all.type.annotation"
-
-	featureCounts -M -O --largestOverlap --fraction -t gene,ncRNA_gene -g biotype -T $thread -R BAM -a ${ath[all_type_annotation]} -o $dir3/Annotation-all.reads/all.type.annotation $dir2/ShortStack/*.bam >$dir3/Annotation-all.reads/log.txt 2>&1
-
-	echo "Editing Summary Files"
-
-	awk 'NR>1{$2=$3=$4=$5=$6=null;print}' $dir3/Annotation-all.reads/all.type.annotation | awk '{for(i=1;i<NF;i++)printf("%s\t",$i);print $NF}' >$dir3/Annotation-all.reads/summary.txt
-
-	sed -i "1 s%$dir2/ShortStack/%%g ; s%_trimmed.bam%%g" $dir3/Annotation-all.reads/summary.txt
-
-	echo "Calculating the number of others reads"
-
-	grep 'Unassigned_NoFeatures' $dir3/Annotation-all.reads/all.type.annotation.summary | awk '{OFS="\t";gsub("Unassigned_NoFeatures","NoFeatures",$1);print $0}' >>$dir3/Annotation-all.reads/summary.txt
+	echo "Annotation of all reads"
+	python3 $scriptDir/module/TRMRNA_mapping_anntation.py -i $dir2/ShortStack -o $dir3 --anno-only
+	python3 $scriptDir/module/TRMRNA_mapping_anntation.py -i $dir2/ShortStack -o $dir3 -f gene -a ID --anno-only
+	python3 $scriptDir/module/TRMRNA_mapping_anntation.py -i $dir2/ShortStack -o $dir3 -f ncRNA_gene -a ID --anno-only
 
 	myvar=0
 	for i in ${list}; do
@@ -462,27 +452,25 @@ if [ ! -d "$dir3/Annotation-all.reads" ]; then
 	echo '-----------------------------------------------'
 fi
 
-# if [ ! -d "$dir3/Annotation-pri-miRNA" ]; then
-# 	echo
-# 	echo
-# 	echo "[ `date` ] Annotating miRNA reads"
-# 	echo '-----------------------------------------------'
-# 	mkdir -p $dir3/Annotation-pri-miRNA
-# 	echo "featureCounts -O -M --largestOverlap -t miRNA_primary_transcript -g Name -T $thread -a ${ath[miRNA_annotation]} -o $dir3/Annotation-pri-miRNA/miRNA.hairpin.annotation"
-# 	featureCounts -O -M --largestOverlap -t miRNA_primary_transcript -g Name -T $thread -a ${ath[miRNA_annotation]} -o $dir3/Annotation-pri-miRNA/miRNA.hairpin.annotation $dir2/ShortStack/*.bam >$dir3/Annotation-pri-miRNA/hairpin.log 2>&1
-# 	echo "featureCounts -O -M --largestOverlap -t miRNA -g Name -T $thread -a ${ath[miRNA_annotation]} -o $dir3/Annotation-pri-miRNA/miRNA.mature.annotation"
-# 	featureCounts -O -M --largestOverlap -t miRNA -g Name -T $thread -a ${ath[miRNA_annotation]} -o $dir3/Annotation-pri-miRNA/miRNA.mature.annotation $dir2/ShortStack/*.bam >$dir3/Annotation-pri-miRNA/mature.log 2>&1
-# 	echo "featureCounts -O -M --largestOverlap -t miRNA -g Name -T $thread -R BAM -a ${ath[miRNA_re-annotation]} -o $dir3/Annotation-pri-miRNA/miRNA.re.annotation"
-# 	featureCounts -O -M --largestOverlap -t miRNA -g Name -T $thread -R BAM -a ${ath[miRNA_re-annotation]} -o $dir3/Annotation-pri-miRNA/miRNA.re.annotation $dir2/ShortStack/*.bam >$dir3/Annotation-pri-miRNA/re.log 2>&1
+if [ ! -d "$dir3/Annotation-pri-miRNA" ]; then
+	echo
+	echo
+	echo "[ `date` ] Annotating miRNA reads"
+	echo '-----------------------------------------------'
+	mkdir -p $dir3/Annotation-pri-miRNA
+	echo "featureCounts -O -M --largestOverlap -t miRNA_primary_transcript -g Name -T $thread -a ${ath[miRNA_annotation]} -o $dir3/Annotation-pri-miRNA/miRNA.hairpin.annotation"
+	featureCounts -O -M --largestOverlap -t miRNA_primary_transcript -g Name -T $thread -a ${ath[miRNA_annotation]} -o $dir3/Annotation-pri-miRNA/miRNA.hairpin.annotation $dir2/cleandata/*.remap.sam >$dir3/Annotation-pri-miRNA/hairpin.log 2>&1
+	echo "featureCounts -O -M --largestOverlap -t miRNA -g Name -T $thread -a ${ath[miRNA_annotation]} -o $dir3/Annotation-pri-miRNA/miRNA.mature.annotation"
+	featureCounts -O -M --largestOverlap -t miRNA -g Name -T $thread -a ${ath[miRNA_annotation]} -o $dir3/Annotation-pri-miRNA/miRNA.mature.annotation $dir2/cleandata/*.remap.sam >$dir3/Annotation-pri-miRNA/mature.log 2>&1
+	echo "featureCounts -O -M --largestOverlap -t miRNA -g Name -T $thread -R BAM -a ${ath[miRNA_re-annotation]} -o $dir3/Annotation-pri-miRNA/miRNA.re.annotation"
+	featureCounts -O -M --largestOverlap -t miRNA -g Name -T $thread -R BAM -a ${ath[miRNA_re-annotation]} -o $dir3/Annotation-pri-miRNA/miRNA.re.annotation $dir2/cleandata/*.remap.sam >$dir3/Annotation-pri-miRNA/re.log 2>&1
 
-# 	sed -i "s%$dir2/ShortStack/%%g ; s%_trimmed.bam%%g" $dir3/Annotation-pri-miRNA/miRNA.mature.annotation
-# 	sed -i "s%$dir2/ShortStack/%%g ; s%_trimmed.bam%%g" $dir3/Annotation-pri-miRNA/miRNA.hairpin.annotation
-# 	sed -i "s%$dir2/ShortStack/%%g ; s%_trimmed.bam%%g" $dir3/Annotation-pri-miRNA/miRNA.re.annotation
-
-# 	python3 $scriptDir/module/combine_sRNA_by_id_from_featureCounts.py -i $dir3/Annotation-pri-miRNA/miRNA.re.annotation -f /bios-store1/chenyc/Reference_Source/Arabidopsis_Reference/ath_mature_bowtie_index/PNAS_miRNA_ver.211213.fa -o $dir3/Annotation-pri-miRNA/miRNA.re.combine
-# 	echo "[ `date` ] Run complete"
-# 	echo '-----------------------------------------------'
-# fi
+	sed -i "s%$dir2/cleandata/%%g ; s%.remap.sam%%g" $dir3/Annotation-pri-miRNA/miRNA.mature.annotation
+	sed -i "s%$dir2/cleandata/%%g ; s%.remap.sam%%g" $dir3/Annotation-pri-miRNA/miRNA.hairpin.annotation
+	sed -i "s%$dir2/cleandata/%%g ; s%.remap.sam%%g" $dir3/Annotation-pri-miRNA/miRNA.re.annotation
+	echo "[ `date` ] Run complete"
+	echo '-----------------------------------------------'
+fi
 
 if [ ! -d "$dir3/Annotation-type_len_dis/" ]; then
 	echo
