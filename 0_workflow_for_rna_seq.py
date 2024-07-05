@@ -204,11 +204,11 @@ if __name__ == "__main__":
     output_path = args.outdir
 
     hisat_index = '/bios-store1/chenyc/Reference_Source/Arabidopsis_Reference/ath_chr_hisat_index/Arabidopsis_thaliana.TAIR10.dna.toplevel'
-    gff_file = '/home/chenyc/Bioinformatics/chenyc/Reference_Source/Arabidopsis_Reference/Arabidopsis_thaliana.TAIR10.53.chr.ridsiRNA.gff3'
+    gff_file = '/bios-store1/chenyc/Reference_Source/Arabidopsis_Reference/Arabidopsis_thaliana.TAIR10.53.chr.ridsiRNA.gff3'
 
-    trim_path = os.path.join(output_path, "1_trimmed_data/")
-    mapping_path = os.path.join(output_path, "2_map2genome/")
-    anno_path = os.path.join(output_path, "3_gene_annotation/")
+    trim_path = os.path.join(output_path, "2_trimmed_data/")
+    mapping_path = os.path.join(output_path, "3_map2genome/")
+    anno_path = os.path.join(output_path, "4_gene_annotation/")
 
     # Read the SraRunTable.txt file as a DataFrame
     meta = pd.read_csv(args.batch_file)
@@ -229,7 +229,7 @@ if __name__ == "__main__":
     # merge gene matrix
     merge_gene_matrix(anno_path)
     # Step4: compress sam files to bam files
-    sam_files = glob.glob(os.path.join(output_path + "/2_map2genome/", "*.sam"))
+    sam_files = glob.glob(os.path.join(output_path + "/3_map2genome/", "*.sam"))
     progress = []
     for sam_file in sam_files:
         bam_file = sam_file.replace(".sam", ".sorted.bam")
