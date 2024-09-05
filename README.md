@@ -16,7 +16,8 @@ Currently it is able to process small RNA-seq and generally analyze them.
 
 If you have any questions or comments, please submit an issue in the GitHub or directly email to Yuchen Cai.
 
-### Function
+## Function
+![image](https://github.com/user-attachments/assets/2dc7966c-12fa-4ef9-bf41-1ae2863acb7c)
 
 ## Upate Summary
 
