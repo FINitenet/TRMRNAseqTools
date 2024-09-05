@@ -30,19 +30,19 @@ def data_trim(ADAPTER, TRIM_FLAG, TRIM_PATH, fastq_file):
     
     if ADAPTER and TRIM_FLAG == 1:
         trim_cmd = ["trim_galore", "--fastqc", "--fastqc_args", "-t 16 --nogroup",
-                "-a", ADAPTER,
-                "--gzip", "--length", "10", "--consider_already_trimmed", "10",
+                "-a", ADAPTER, "--basename", BASENAME,
+                "--gzip", "--length", "10", "--max_length", "30", "--consider_already_trimmed", "10",
                 "--trim-n", "--suppress_warn", "-j", "12", "-o", TRIM_PATH, fastq_file]
     elif ADAPTER == None and TRIM_FLAG == 2:
         trim_cmd = ["trim_galore", "--fastqc", "--fastqc_args", "-t 16 --nogroup",
-                "--length", "10",
+                "--length", "10", "--basename", BASENAME,
                 "--gzip", "--consider_already_trimmed", "10",
                 "--trim-n", "--suppress_warn", "-j", "12", "-o", TRIM_PATH, fastq_file]
     elif ADAPTER == None and TRIM_FLAG == 3:
         adapter_search = subprocess.run(["/bios-store1/chenyc/scripts/Github_scripts/DNApi/dnapi.py", fastq_file], check=True, stdout=subprocess.PIPE, text=True)
         adapter = adapter_search.stdout.split()[0]
         trim_cmd = ["trim_galore", "--fastqc", "--fastqc_args", "-t 16 --nogroup",
-                    "-a", adapter,
+                    "-a", adapter, "--basename", BASENAME, 
                     "--gzip", "--length", "10", "--consider_already_trimmed", "10",
                     "--trim-n", "--suppress_warn", "-j", "12", "-o", TRIM_PATH, fastq_file]
     subprocess.run(trim_cmd, check=True)

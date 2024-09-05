@@ -202,10 +202,10 @@ if [ ! -d "$dir1/trim_adapter/" ]; then
 	for i in ${list}; do
 		if [ -z $adapter ]; then
 			echo "trim_galore -q 20 --length 10 --trim-n --basename ${i}"
-			trim_galore -j 8 -q 20 --basename "$i" --length 10 --consider_already_trimmed 10 --trim-n --fastqc --fastqc_args "-t 16 --nogroup" --gzip $input/"$i"*.$tag -o $dir1/trim_adapter/ &
+			trim_galore -j 8 -q 20 --basename "$i" --length 10 --max_length 40 --consider_already_trimmed 10 --trim-n --fastqc --fastqc_args "-t 16 --nogroup" --gzip $input/"$i"*.$tag -o $dir1/trim_adapter/ &
 		else
 			echo "trim_galore -q 20 --length 10 --trim-n -a ${adapter} --basename ${i}"
-			trim_galore -j 8 -q 20 --basename "$i" --length 10 --max_length 50 --consider_already_trimmed 10 -a $adapter --trim-n --fastqc --fastqc_args "-t 16 --nogroup" --gzip $input/"$i"*.$tag -o $dir1/trim_adapter/ &
+			trim_galore -j 8 -q 20 --basename "$i" --length 10 --max_length 40 --consider_already_trimmed 10 -a $adapter --trim-n --fastqc --fastqc_args "-t 16 --nogroup" --gzip $input/"$i"*.$tag -o $dir1/trim_adapter/ &
 		fi
 		myvar=$(($myvar + 1))
 		if [ "$myvar" = "6" ]; then
@@ -438,15 +438,8 @@ if [ ! -d "$dir3/Annotation-all.reads" ]; then
 	python3 $scriptDir/module/TRMRNA_mapping_anntation.py -i $dir2/ShortStack -o $dir3 -f gene -a ID --anno-only
 	python3 $scriptDir/module/TRMRNA_mapping_anntation.py -i $dir2/ShortStack -o $dir3 -f ncRNA_gene -a ID --anno-only
 
-	myvar=0
-	for i in ${list}; do
-		samtools index -@ $thread $dir3/Annotation-all.reads/"$i"_trimmed.bam.featureCounts.bam &
-		myvar=$(($myvar + 1))
-		if [ "$myvar" = "6" ]; then
-			myvar=0
-			wait
-		fi
-	done
+	sed -i "s%$dir2/ShortStack/%%g ; s%_trimmed.bam%%g" $dir3/Annotation_gene/gene.annotation
+	sed -i "s%$dir2/ShortStack/%%g ; s%_trimmed.bam%%g" $dir3/Annotation_ncRNA_gene/ncRNA_gene.annotation
 
 	echo "[ `date` ] Run complete"
 	echo '-----------------------------------------------'
