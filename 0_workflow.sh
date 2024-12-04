@@ -195,7 +195,7 @@ fi
 if [ ! -d "$dir1/trim_adapter/" ]; then
 	echo
 	echo
-	echo "[ `date` ] Remove the 3′adapter with trim_galore and rename sample name"
+	echo "[ `date` ] Remove the 3' adapter with trim_galore and rename sample name"
 	echo '-----------------------------------------------'
 	mkdir -p $dir1/trim_adapter
 	myvar=0

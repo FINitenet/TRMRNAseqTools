@@ -153,7 +153,7 @@ def data_umi_extract(BASENAME, TRIM_PATH, UMI_PATH):
     bowtie_fa_cmd = [
     "bowtie",
     "-f",
-    "-p", "12",
+    "-p", "24",
     "-m", "50",
     "-v", "0",
     "--best",
@@ -174,7 +174,7 @@ def data_umi_extract(BASENAME, TRIM_PATH, UMI_PATH):
 def data_mapping(BASENAME, TRIM_PATH, MAPPING_PATH):
     bowtie_fq_cmd = [
     "bowtie",
-    "-p", "12",
+    "-p", "24",
     "-m", "50",
     "-v", "0",
     "--best",
@@ -261,7 +261,7 @@ parser.add_argument("-o", "--outdir", type= str, default= os.getcwd(),
 parser.add_argument("-g", "--genome_index", type= str, default= "/bios-store1/chenyc/Reference_Source/Arabidopsis_Reference/ath_chr_bowtie_index/Arabidopsis_thaliana.TAIR10.dna.toplevel",
                     help="path to genome index file")
 parser.add_argument("-u", "--umi_flag", type= int, default= 1)
-parser.add_argument("-s", "--suffix", type= str, default= ".fastq.gz")
+parser.add_argument("-s", "--suffix", type= str, default= "_R1.fastq.gz")
 
 
 args = parser.parse_args()
