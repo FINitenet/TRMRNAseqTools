@@ -227,7 +227,7 @@ def data_length_dist(INPUT_FILE, DOC_PATH):
 
         table = pd.DataFrame({"Length": counts.index, "Count": counts.values, "Percentage": percentages.values})
         table = table.sort_values(by="Length").reset_index(drop=True)
-        table.to_csv(DOC_PATH + "/" + BASENAME + "_rawreads_dist.csv", index=False, sep="\t")
+        table.to_csv(DOC_PATH + "/" + BASENAME + "_umi_dist.csv", index=False, sep="\t")
 
 
 def umi_kit():
